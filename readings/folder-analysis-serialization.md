@@ -1,12 +1,12 @@
-# Serialization Module Architecture Analysis
+# Serialization 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/serialization` folder provides object serialization and deserialization infrastructure for Chrono. It enables saving and loading simulation states, exporting data to various formats, and supporting checkpoint/restart functionality.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **Archive Interface**: Abstract serialization interface
 2. **Multiple Formats**: JSON, XML, Binary, ASCII support
 3. **Object Registration**: Class factory for polymorphic deserialization
@@ -14,16 +14,16 @@ The `src/chrono/serialization` folder provides object serialization and deserial
 5. **Pointer Management**: Serialize object graphs with shared pointers
 6. **Introspection**: Object explorer for debugging and inspection
 
-## Design Characteristics
+## 设计特性
 
-### Architecture Patterns
+### 架构模式
 - **Visitor Pattern**: Archive visits serializable objects
 - **Factory Pattern**: Class registration for deserialization
 - **Strategy Pattern**: Different archive formats
 - **Template Method**: Base archive defines workflow
 - **RAII**: Archive lifetime manages stream state
 
-### Performance Considerations
+### 性能考虑
 - **Lazy Loading**: Objects loaded on-demand
 - **Binary Format**: Compact and fast for large data
 - **Buffering**: Efficient I/O through buffering
@@ -52,7 +52,7 @@ ChArchiveASCII.h/cpp        - ASCII format (simple text)
 ChObjectExplorer.h/cpp      - Introspection and exploration
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -92,7 +92,7 @@ graph TB
     style XML fill:#fff5e1
 ```
 
-## Class Hierarchy
+## 类层次结构
 
 ```mermaid
 classDiagram
@@ -125,7 +125,7 @@ classDiagram
     ChArchiveJSON --|> ChArchiveOut
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. Archive Base (ChArchive.h)
 ```cpp
@@ -211,17 +211,17 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **JSON library**: For JSON parsing/generation
 - **XML library**: For XML parsing/generation  
 - **Standard streams**: std::iostream for I/O
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChClassFactory for object creation
 
-### Usage by Other Modules
+### 其他模块的使用
 - **All modules**: Any class can be serialized
 - **output**: Uses archives for data export
 - **postprocess**: Load simulation results
@@ -279,64 +279,64 @@ ChSystemNSC system;
 archive >> CHNVP(system);
 ```
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Non-Intrusive Serialization
-**Decision**: ArchiveOut/ArchiveIn methods, not base class
-**Rationale**:
+**决策**: ArchiveOut/ArchiveIn methods, not base class
+**理由**:
 - No forced inheritance
 - Works with existing classes
 - Optional serialization
 - Clear separation of concerns
 
 ### 2. Multiple Format Support
-**Decision**: Abstract archive with format implementations
-**Rationale**:
+**决策**: Abstract archive with format implementations
+**理由**:
 - Choose format for use case (JSON for web, binary for performance)
 - Same serialization code works for all formats
 - Easy to add new formats
 - Format-specific features accessible
 
 ### 3. Shared Pointer Tracking
-**Decision**: Maintain pointer identity across serialization
-**Rationale**:
+**决策**: Maintain pointer identity across serialization
+**理由**:
 - Preserve object graphs
 - Avoid duplicate objects
 - Maintain shared ownership
 - Essential for complex systems
 
 ### 4. Versioning Support
-**Decision**: Store class version in archive
-**Rationale**:
+**决策**: Store class version in archive
+**理由**:
 - Handle schema evolution
 - Backward compatibility
 - Forward compatibility (with care)
 - Clear migration path
 
 ### 5. Named Values (CHNVP)
-**Decision**: Macro for name-value pairs
-**Rationale**:
+**决策**: Macro for name-value pairs
+**理由**:
 - Human-readable output
 - Self-documenting serialization
 - Easy debugging
 - JSON/XML compatibility
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Binary Format**: Fast and compact for large data
 2. **Buffered I/O**: Efficient stream operations
 3. **Lazy Loading**: Objects created on-demand
 4. **Minimal Copies**: Move semantics where possible
 5. **Shared Pointer Reuse**: Avoid duplicate deserialization
 
-### Considerations
+### 注意事项
 1. **JSON/XML Parsing**: Slower than binary
 2. **Large Objects**: Memory usage during serialization
 3. **Deep Hierarchies**: Stack depth for nested objects
 4. **Pointer Resolution**: Overhead tracking shared pointers
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Complete System Serialization
 ```cpp
@@ -530,7 +530,7 @@ assert(object == loaded_object);
 - Binary: Performance, large data
 - XML: Standards compliance
 
-## Summary
+## 总结
 
 The serialization module provides:
 - Flexible serialization framework with multiple formats

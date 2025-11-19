@@ -1,12 +1,12 @@
-# Collision Module Architecture Analysis
+# Collision 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/collision` folder implements the collision detection system for Chrono, providing a flexible architecture for detecting contacts between various geometric shapes. The module includes shape definitions, collision models, and integration with the Bullet physics library for broadphase and narrowphase collision detection.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **Collision Shapes**: Geometric primitives for collision detection (box, sphere, cylinder, etc.)
 2. **Collision Models**: Per-body collections of collision shapes
 3. **Collision System**: Orchestrates broadphase and narrowphase detection
@@ -14,16 +14,16 @@ The `src/chrono/collision` folder implements the collision detection system for 
 5. **Bullet Integration**: Wrapper around Bullet collision detection library
 6. **Material Properties**: Surface properties for contact generation
 
-## Design Characteristics
+## 设计特性
 
-### Architecture Patterns
+### 架构模式
 - **Strategy Pattern**: Different collision backends (Bullet, multicore)
 - **Composite Pattern**: Collision models contain multiple shapes
 - **Factory Pattern**: Shape creation with type-specific parameters
 - **Adapter Pattern**: Bullet library integration through adapters
 - **Visitor Pattern**: Shape-specific collision algorithms
 
-### Performance Considerations
+### 性能考虑
 - **Broadphase Optimization**: Spatial partitioning (AABB tree, sweep-and-prune)
 - **Shape Caching**: Collision shapes shared across instances
 - **Lazy Updates**: AABB updates only when needed
@@ -85,7 +85,7 @@ bullet/cbtMultiBodyConstraintSolver.h/cpp - Multibody solver
 bullet/cbtBulletCollision*.h            - Modified Bullet headers
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -147,7 +147,7 @@ graph TB
     style BULLET fill:#e1ffe1
 ```
 
-## Class Hierarchy
+## 类层次结构
 
 ```mermaid
 classDiagram
@@ -211,7 +211,7 @@ classDiagram
     ChCollisionSystem --> ChCollisionInfo
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. Collision System (ChCollisionSystem.h)
 ```cpp
@@ -378,76 +378,76 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **Bullet3**: Core collision detection library
   - btCollisionWorld: Main collision world
   - btBroadphaseInterface: Spatial partitioning
   - btCollisionAlgorithm: Narrowphase detection
   - btCollisionShape: Shape representations
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector3, ChQuaternion, ChFrame for geometry
 - **geometry**: ChTriangleMesh for mesh shapes
 - **physics**: ChContactMaterial for surface properties
 - **physics**: ChContactable interface for collision callbacks
 
-### Usage by Other Modules
+### 其他模块的使用
 - **physics**: ChSystem uses collision system for contact detection
 - **vehicle**: Terrain collision with vehicle components
 - **fea**: FEA mesh collision detection
 - **particlefactory**: Particle-particle and particle-boundary collisions
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Pluggable Collision Backend
-**Decision**: Abstract ChCollisionSystem with multiple implementations
-**Rationale**:
+**决策**: Abstract ChCollisionSystem with multiple implementations
+**理由**:
 - Bullet: General-purpose, mature, feature-rich
 - Multicore: Optimized for parallel execution
 - Custom: Application-specific optimizations
 - Allows benchmarking and comparison
 
 ### 2. Shape-Material Association
-**Decision**: Each shape can have its own material
-**Rationale**:
+**决策**: Each shape can have its own material
+**理由**:
 - Supports multi-material bodies
 - Enables heterogeneous contact properties
 - Simplifies per-feature material assignment
 
 ### 3. Two-Phase Build Process
-**Decision**: ClearModel() → AddShape() → BuildModel()
-**Rationale**:
+**决策**: ClearModel() → AddShape() → BuildModel()
+**理由**:
 - Allows batch shape addition
 - Enables backend optimization
 - Separates construction from compilation
 
 ### 4. Bullet Wrapper Design
-**Decision**: Thin wrapper around Bullet with custom algorithms
-**Rationale**:
+**决策**: Thin wrapper around Bullet with custom algorithms
+**理由**:
 - Leverages mature Bullet broadphase
 - Adds Chrono-specific shapes
 - Maintains performance of native Bullet
 - Allows custom contact generation
 
 ### 5. Contact Information Structure
-**Decision**: Lightweight ChCollisionInfo struct
-**Rationale**:
+**决策**: Lightweight ChCollisionInfo struct
+**理由**:
 - Efficient contact reporting
 - Decouples collision from contact mechanics
 - Enables post-processing and filtering
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Broadphase Efficiency**: Bullet's AABB tree is highly optimized
 2. **SIMD Acceleration**: Bullet uses vectorized operations
 3. **Spatial Partitioning**: Efficient culling of distant objects
 4. **Shape Caching**: Convex hulls and meshes computed once
 5. **Parallel Detection**: Multicore backend supports threading
 
-### Considerations
+### 注意事项
 1. **Triangle Mesh Cost**: Mesh-mesh collision is expensive
 2. **Contact Generation**: Many shapes create many contacts
 3. **Memory Usage**: Large meshes consume significant memory
@@ -605,7 +605,7 @@ The module includes customized Bullet files (prefixed with `cbt`):
 4. Limit number of contact points per pair
 5. Consider collision families for selective detection
 
-## Summary
+## 总结
 
 The collision module provides:
 - Comprehensive shape library from primitives to meshes

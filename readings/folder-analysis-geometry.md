@@ -1,12 +1,12 @@
-# Geometry Module Architecture Analysis
+# Geometry 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/geometry` folder provides geometric primitives, curves, surfaces, and computational geometry utilities. It includes shape definitions, parametric curves (B-splines, NURBS), geometric operations, and triangle mesh handling.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **Geometric Primitives**: Basic shapes (box, sphere, cylinder, etc.)
 2. **Curves**: Lines, arcs, B-splines, NURBS, Bezier curves
 3. **Surfaces**: Parametric surfaces, NURBS surfaces
@@ -14,16 +14,16 @@ The `src/chrono/geometry` folder provides geometric primitives, curves, surfaces
 5. **Geometric Operations**: Intersections, projections, transformations
 6. **Computational Geometry**: Convex hulls, closest points, volumes
 
-## Design Characteristics
+## 设计特性
 
-### Architecture Patterns
+### 架构模式
 - **Abstract Base Classes**: ChGeometry for all geometric objects
 - **Visitor Pattern**: Polymorphic operations on different shapes
 - **Strategy Pattern**: Different algorithms for same operation
 - **Factory Pattern**: Shape creation with specific parameters
 - **Composite Pattern**: Complex shapes from primitives
 
-### Performance Considerations
+### 性能考虑
 - **Bounding Box Caching**: AABB computed and cached
 - **Level of Detail**: Support for different detail levels (curves/surfaces)
 - **Efficient Evaluation**: Optimized parametric curve/surface evaluation
@@ -89,7 +89,7 @@ ChGeometryCollision.h       - Collision between geometries
 ChGeometryQuery.h           - Geometric queries (distance, etc.)
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -165,7 +165,7 @@ graph TB
     style MESH fill:#e1ffe1
 ```
 
-## Class Hierarchy
+## 类层次结构
 
 ```mermaid
 classDiagram
@@ -227,7 +227,7 @@ classDiagram
     ChLineBSpline --|> ChLine
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. Geometry Base (ChGeometry.h)
 ```cpp
@@ -435,81 +435,81 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **None**: Geometry module is self-contained
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector3, ChMatrix33 for geometric computations
 - **serialization**: For saving/loading geometry
 
-### Usage by Other Modules
+### 其他模块的使用
 - **collision**: Shape definitions for collision detection
 - **assets**: Visual shape definitions
 - **fea**: Mesh generation for FEA
 - **vehicle**: Terrain surface definitions
 - **particlefactory**: Emitter geometry
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Separation of Concerns
-**Decision**: Geometry separate from physics and visualization
-**Rationale**:
+**决策**: Geometry separate from physics and visualization
+**理由**:
 - Pure geometric operations
 - Reusable across modules
 - Clear interface boundaries
 - Independent testing
 
 ### 2. Parametric Representation
-**Decision**: Parametric curves and surfaces (u, v parameters)
-**Rationale**:
+**决策**: Parametric curves and surfaces (u, v parameters)
+**理由**:
 - Standard in CAD/graphics
 - Smooth representation
 - Easy to sample/tessellate
 - Supports deformation
 
 ### 3. B-splines and NURBS
-**Decision**: Full support for B-splines and NURBS
-**Rationale**:
+**决策**: Full support for B-splines and NURBS
+**理由**:
 - Industry standard (CAD interoperability)
 - Smooth curves with local control
 - Exact representation of conics (NURBS)
 - Efficient evaluation
 
 ### 4. Triangle Mesh Format
-**Decision**: Simple vertex/index array representation
-**Rationale**:
+**决策**: Simple vertex/index array representation
+**理由**:
 - Compatible with graphics APIs
 - Easy to create procedurally
 - Standard OBJ file support
 - Memory efficient
 
 ### 5. Mass Properties
-**Decision**: Geometric objects compute mass properties
-**Rationale**:
+**决策**: Geometric objects compute mass properties
+**理由**:
 - Useful for physics setup
 - Automatic inertia calculation
 - Consistent with solid modeling
 - Supports composite shapes
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Efficient Evaluation**: Optimized spline evaluation algorithms
 2. **Caching**: Bounding boxes and derived quantities cached
 3. **Level of Detail**: Adjustable tesselation resolution
 4. **Memory Efficiency**: Shared vertex data in meshes
 5. **Vectorized Operations**: Where applicable
 
-### Considerations
+### 注意事项
 1. **Curve Evaluation**: NURBS more expensive than B-splines
 2. **Mesh Size**: Large meshes consume memory
 3. **Tessellation Cost**: High-resolution surfaces expensive to mesh
 4. **Convex Hull**: O(n log n) for point clouds
 5. **Closest Point**: Iterative, may need good initial guess
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Creating Primitive Shapes
 ```cpp
@@ -692,7 +692,7 @@ mesh->RepairDuplicateVertices();
 mesh->ComputeNormals();
 ```
 
-## Summary
+## 总结
 
 The geometry module provides:
 - Comprehensive geometric primitive library

@@ -1,12 +1,12 @@
-# Assets Module Architecture Analysis
+# Assets 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/assets` folder contains the visualization and rendering infrastructure for Chrono. It provides visual shapes, materials, textures, cameras, and the abstract visualization system interface that connects to rendering backends (Irrlicht, VSG, OpenGL, etc.).
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **Visual Shapes**: Geometric primitives for visualization (separate from collision)
 2. **Visual Models**: Collections of shapes attached to physics objects
 3. **Materials**: Surface appearance (color, texture, reflectance)
@@ -14,16 +14,16 @@ The `src/chrono/assets` folder contains the visualization and rendering infrastr
 5. **Visualization System**: Abstract interface for rendering backends
 6. **Glyphs**: Visual markers and symbols
 
-## Design Characteristics
+## 设计特性
 
-### Architecture Patterns
+### 架构模式
 - **Composite Pattern**: Visual models contain multiple shapes
 - **Bridge Pattern**: Visual system abstracts rendering backend
 - **Decorator Pattern**: Materials decorate shapes
 - **Strategy Pattern**: Different shape representations
 - **Visitor Pattern**: Shape traversal for rendering
 
-### Performance Considerations
+### 性能考虑
 - **Level of Detail (LOD)**: Future support for different detail levels
 - **Instance Rendering**: Shared shape data for multiple instances
 - **Culling Ready**: Bounding boxes for frustum culling
@@ -86,7 +86,7 @@ ChGlyphs.h/cpp              - Visual markers (arrows, points, etc.)
 ChVisualShapes.h            - Convenience header including all shapes
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -152,7 +152,7 @@ graph TB
     style MAT fill:#e1ffe1
 ```
 
-## Class Hierarchy
+## 类层次结构
 
 ```mermaid
 classDiagram
@@ -219,7 +219,7 @@ classDiagram
     ChVisualSystem --> ChCamera
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. Visual System (ChVisualSystem.h)
 ```cpp
@@ -427,81 +427,81 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **None**: Assets module is independent of rendering backends
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector3, ChColor, ChFrame for geometry and transforms
 - **geometry**: ChTriangleMesh for mesh shapes
 - **physics**: ChPhysicsItem for binding visual models
 
-### Usage by Other Modules
+### 其他模块的使用
 - **chrono_irrlicht**: Implements ChVisualSystemIrrlicht
 - **chrono_vsg**: Implements ChVisualSystemVSG  
 - **chrono_opengl**: Implements ChVisualSystemOpenGL
 - **chrono_sensor**: Uses visual shapes for sensor simulation
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Separation from Collision
-**Decision**: Completely separate visual and collision shapes
-**Rationale**:
+**决策**: Completely separate visual and collision shapes
+**理由**:
 - Visual detail independent of collision complexity
 - Different LODs for visualization and collision
 - Simplified collision shapes for performance
 - Detailed visual shapes for aesthetics
 
 ### 2. Abstract Visual System
-**Decision**: ChVisualSystem is abstract interface
-**Rationale**:
+**决策**: ChVisualSystem is abstract interface
+**理由**:
 - Support multiple rendering backends
 - No dependency on specific graphics library
 - Easy to add new visualization systems
 - Physics engine independent of visualization
 
 ### 3. Material System
-**Decision**: Support both classic Phong and modern PBR
-**Rationale**:
+**决策**: Support both classic Phong and modern PBR
+**理由**:
 - Backward compatibility with Phong
 - Modern rendering with PBR (metallic/roughness)
 - Flexibility for different backends
 - Texture support for detailed appearance
 
 ### 4. Visual Model as Container
-**Decision**: ChVisualModel contains multiple shapes
-**Rationale**:
+**决策**: ChVisualModel contains multiple shapes
+**理由**:
 - Complex objects from primitives
 - Independent materials per shape
 - Efficient rendering (batch similar shapes)
 - Clear ownership and lifetime
 
 ### 5. Deferred Updates
-**Decision**: Visual updates separate from physics updates
-**Rationale**:
+**决策**: Visual updates separate from physics updates
+**理由**:
 - Physics and rendering at different rates
 - Interpolation possible for smooth rendering
 - Reduced coupling between systems
 - Better performance characteristics
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Lightweight Core**: Assets module has minimal overhead
 2. **Instance Rendering**: Shared geometry data
 3. **Culling Ready**: Bounding boxes computed
 4. **Deferred Loading**: Meshes loaded on demand
 5. **Backend Optimization**: Actual rendering optimized per backend
 
-### Considerations
+### 注意事项
 1. **Large Meshes**: High polygon count impacts rendering
 2. **Many Objects**: Scene complexity affects frame rate
 3. **Texture Size**: Large textures consume memory
 4. **Material Switches**: Frequent material changes slow rendering
 5. **Transparency**: Alpha blending requires sorting
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Adding Visual Shapes to Body
 ```cpp
@@ -694,7 +694,7 @@ sequenceDiagram
 - Interpolate positions for smooth 60fps rendering from 100Hz physics
 - Update visual models only when needed
 
-## Summary
+## 总结
 
 The assets module provides:
 - Flexible visual representation independent of collision

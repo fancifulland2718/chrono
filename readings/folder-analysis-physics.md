@@ -1,12 +1,12 @@
-# Physics Module Architecture Analysis
+# Physics 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/physics` folder contains the core physics engine implementation, including the simulation system, rigid bodies, constraints (links), contact mechanics, and loads. This is the heart of Chrono's multibody dynamics capabilities.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **System Management**: ChSystem - the main simulation coordinator
 2. **Rigid Bodies**: ChBody and variants for representing physical objects
 3. **Constraints**: ChLink hierarchy for joints and constraints between bodies
@@ -16,16 +16,16 @@ The `src/chrono/physics` folder contains the core physics engine implementation,
 7. **Assemblies**: Hierarchical organization of physics items
 8. **Nodes**: Point masses and particle systems
 
-## Design Characteristics
+## 设计特性
 
-### Architecture Patterns
+### 架构模式
 - **Component Pattern**: Physics items are components added to the system
 - **Strategy Pattern**: Different solver and contact formulations (NSC vs SMC)
 - **Composite Pattern**: ChAssembly allows hierarchical composition
 - **Visitor Pattern**: Used for collision detection and constraint assembly
 - **Factory Pattern**: ChBodyEasy for convenient body creation
 
-### Performance Considerations
+### 性能考虑
 - **Cache-Friendly Design**: Data structures optimized for sequential access
 - **Lazy Evaluation**: Constraint Jacobians computed only when needed
 - **Contact Pooling**: Reusable contact objects to reduce allocations
@@ -145,7 +145,7 @@ ChHydraulicActuator.h/cpp       - Hydraulic actuator model
 ChHydraulicCircuit.h/cpp        - Hydraulic circuit model
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -228,7 +228,7 @@ graph TB
     style CONT fill:#e1ffe1
 ```
 
-## Class Hierarchy
+## 类层次结构
 
 ```mermaid
 classDiagram
@@ -290,7 +290,7 @@ classDiagram
     ChSystem --> ChPhysicsItem
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. System Management (ChSystem.h)
 ```cpp
@@ -479,77 +479,77 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **Eigen3**: Linear algebra for constraint Jacobians and state vectors
 - **collision module**: For collision detection system
 - **solver module**: For constraint solving
 - **timestepper module**: For time integration
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector3, ChQuaternion, ChFrame, ChMatrix
 - **geometry**: Collision shapes and geometric primitives
 - **serialization**: For saving/loading simulation state
 
-### Usage by Other Modules
+### 其他模块的使用
 - **fea**: Uses ChNodeXYZ, ChLoadable for FEA nodes
 - **vehicle**: Uses ChBody, ChLink for vehicle components
 - **particlefactory**: Uses ChParticleCloud for particle generation
 - **multicore**: Alternative implementation of ChSystemNSC
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. NSC vs SMC Formulations
-**Decision**: Separate system classes for different contact models
-**Rationale**:
+**决策**: Separate system classes for different contact models
+**理由**:
 - NSC (Non-Smooth Contact): DVI formulation, exact constraint enforcement
 - SMC (Smooth Contact): Penalty method, continuous forces
 - Each has different solver requirements and performance characteristics
 
 ### 2. Marker-Based vs Direct Links
-**Decision**: Support both legacy marker-based and modern direct constraints
-**Rationale**:
+**决策**: Support both legacy marker-based and modern direct constraints
+**理由**:
 - Markers: Legacy API, more complex but flexible
 - Direct (Mate/Joint): Modern API, simpler and more efficient
 - Both maintained for backward compatibility
 
 ### 3. Shaft System
-**Decision**: Separate 1D rotational elements from 3D bodies
-**Rationale**:
+**决策**: Separate 1D rotational elements from 3D bodies
+**理由**:
 - Powertrain systems need many DOFs but simpler kinematics
 - Reduced computational cost for shaft-only systems
 - Can couple with 3D bodies via ChShaftBodyConstraint
 
 ### 4. Contact Container Design
-**Decision**: Separate storage for NSC and SMC contacts
-**Rationale**:
+**决策**: Separate storage for NSC and SMC contacts
+**理由**:
 - Different data requirements (DVI vs penalty)
 - Optimized storage layout for each type
 - Enables specialized collision algorithms
 
 ### 5. PhysicsItem Base Class
-**Decision**: All simulation objects inherit from ChPhysicsItem
-**Rationale**:
+**决策**: All simulation objects inherit from ChPhysicsItem
+**理由**:
 - Uniform interface for system management
 - Enables polymorphic storage in containers
 - Provides common Update/IntLoadResidual interface
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Efficient Contact Handling**: Pooled contact objects reduce allocations
 2. **Lazy Evaluation**: Jacobians computed only when constraints are active
 3. **Hierarchical Organization**: ChAssembly enables scene graph optimization
 4. **Direct State Access**: Contiguous state vectors for solver efficiency
 
-### Considerations
+### 注意事项
 1. **Virtual Function Overhead**: Polymorphism has cost in tight loops
 2. **Contact Creation**: Creating new contacts each step can be expensive
 3. **Constraint Complexity**: Many constraints increase solver iterations
 4. **Cache Locality**: Large systems may have poor cache behavior
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Creating a Simple System
 ```cpp
@@ -672,7 +672,7 @@ body->GetCollisionModel()->BuildModel();
 system.GetCollisionSystem()->Run();
 ```
 
-## Summary
+## 总结
 
 The physics module is the core of Chrono's multibody dynamics engine, providing:
 - Flexible system architecture supporting NSC and SMC formulations

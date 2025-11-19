@@ -1,19 +1,19 @@
-# Multicore Math Module Architecture Analysis
+# Multicore Math 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/multicore_math` folder provides mathematical types and operations optimized for multicore and parallel execution. It includes SIMD-friendly vector/matrix types, real number abstractions, and utilities for high-performance parallel computation.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **SIMD Types**: Vector types for SIMD operations (real2, real3, real4)
 2. **Matrix Operations**: Efficient matrix math for parallel code
 3. **Real Number Abstraction**: Switchable float/double precision
 4. **Thrust Integration**: GPU-compatible types and operations
 5. **Utility Functions**: Math helpers for parallel kernels
 
-## File Structure
+## 文件结构
 
 ```
 real.h                  - Base real number type (float or double)
@@ -29,7 +29,7 @@ utility.h              - Math utility functions
 other_types.h          - Additional type definitions
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -284,64 +284,64 @@ namespace utils {
 }
 ```
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. GPU Compatibility
-**Decision**: __host__ __device__ annotations on all functions
-**Rationale**:
+**决策**: __host__ __device__ annotations on all functions
+**理由**:
 - Code works on both CPU and GPU
 - Single implementation for both
 - CUDA compatibility
 - Reduced code duplication
 
 ### 2. Struct-Based Vectors
-**Decision**: Plain structs instead of classes
-**Rationale**:
+**决策**: Plain structs instead of classes
+**理由**:
 - POD types for GPU kernels
 - Fast pass-by-value
 - No virtual functions
 - Optimal memory layout
 
 ### 3. Switchable Precision
-**Decision**: 'real' typedef for float or double
-**Rationale**:
+**决策**: 'real' typedef for float or double
+**理由**:
 - Choose precision at compile time
 - Single codebase for both
 - GPU often faster with float
 - CPU may benefit from double
 
 ### 4. Column-Major Matrices
-**Decision**: Matrices stored column-major
-**Rationale**:
+**决策**: Matrices stored column-major
+**理由**:
 - Compatible with OpenGL/graphics
 - SIMD-friendly for column operations
 - Standard in scientific computing
 - Efficient for common operations
 
 ### 5. Thrust Integration
-**Decision**: Types compatible with Thrust library
-**Rationale**:
+**决策**: Types compatible with Thrust library
+**理由**:
 - Leverage Thrust parallel algorithms
 - GPU acceleration
 - Standard C++ STL-like interface
 - Proven performance
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **SIMD Friendly**: Data layout optimized for vectorization
 2. **GPU Compatible**: All code runs on GPU
 3. **Cache Efficient**: Compact data structures
 4. **Inlined Operations**: Small functions inlined
 5. **Precision Control**: Choose speed vs accuracy
 
-### Considerations
+### 注意事项
 1. **Alignment**: May need explicit alignment for SIMD
 2. **Register Pressure**: Large structs may spill registers
 3. **Precision Loss**: Float has limited precision
 4. **Atomic Operations**: Limited atomic support for custom types
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Vector Operations
 ```cpp
@@ -486,7 +486,7 @@ real dot = simd::dot3(a, b);  // May use SIMD
 real dot = a.x*b.x + a.y*b.y + a.z*b.z;
 ```
 
-## Summary
+## 总结
 
 The multicore_math module provides:
 - GPU-compatible mathematical types (real2, real3, real4)

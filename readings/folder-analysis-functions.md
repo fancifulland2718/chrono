@@ -1,12 +1,12 @@
-# Functions Module Architecture Analysis
+# Functions 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/functions` folder provides mathematical function representations for time-dependent and parametric functions. These functions are used throughout Chrono for motion profiles, actuator control, force functions, and data interpolation.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **Function Interface**: Abstract base for 1D functions f(x) → y
 2. **Basic Functions**: Constants, ramps, polynomials, sinusoids
 3. **Interpolation**: Linear, cubic spline, B-spline interpolation
@@ -14,16 +14,16 @@ The `src/chrono/functions` folder provides mathematical function representations
 5. **Motion Profiles**: Prescribed motion for actuators and constraints
 6. **Rotation Functions**: 3D rotation as function of parameter
 
-## Design Characteristics
+## 设计特性
 
-### Architecture Patterns
+### 架构模式
 - **Strategy Pattern**: Interchangeable function implementations
 - **Composite Pattern**: Combined functions (sum, product, composition)
 - **Template Method**: Base class defines evaluation interface
 - **Decorator Pattern**: Function wrappers for modifications
 - **Factory Pattern**: Common function creation
 
-### Performance Considerations
+### 性能考虑
 - **Efficient Evaluation**: Fast computation of function values
 - **Derivative Caching**: Analytical derivatives when possible
 - **Lookup Tables**: Pre-computed values for expensive functions
@@ -90,7 +90,7 @@ ChFunctionRepeat.h/cpp      - Repeat function periodically
 ChFunctionFillet3.h/cpp     - Smooth fillet between segments
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -161,7 +161,7 @@ graph TB
     style SEQ fill:#fff5e1
 ```
 
-## Class Hierarchy
+## 类层次结构
 
 ```mermaid
 classDiagram
@@ -212,7 +212,7 @@ classDiagram
     ChFunctionSequence --|> ChFunction
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. Function Base (ChFunction.h)
 ```cpp
@@ -403,79 +403,79 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **None**: Functions module is self-contained
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector3, ChQuaternion for rotation functions
 - **serialization**: For saving/loading functions
 
-### Usage by Other Modules
+### 其他模块的使用
 - **physics**: Motion profiles for motors and actuators
 - **timestepper**: Time-dependent forcing functions
 - **vehicle**: Steering and throttle functions
 - **sensors**: Time-varying sensor properties
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Pure Virtual Interface
-**Decision**: ChFunction is abstract with pure virtual GetVal()
-**Rationale**:
+**决策**: ChFunction is abstract with pure virtual GetVal()
+**理由**:
 - Forces implementation in derived classes
 - Clear contract for all functions
 - Enables polymorphism
 - Type-safe function pointers
 
 ### 2. Analytical Derivatives
-**Decision**: Optional override of GetDer(), GetDer2()
-**Rationale**:
+**决策**: Optional override of GetDer(), GetDer2()
+**理由**:
 - Analytical derivatives when available (fast, accurate)
 - Fallback to numerical differentiation
 - Important for implicit time integration
 - Enables optimization algorithms
 
 ### 3. Separation of Scalar and Rotation
-**Decision**: Separate ChFunction and ChFunctionRotation
-**Rationale**:
+**决策**: Separate ChFunction and ChFunctionRotation
+**理由**:
 - Rotations are not scalar (Lie group)
 - Different interpolation (SLERP, SQUAD)
 - Clear API for each use case
 - Prevents misuse
 
 ### 4. Function Composition
-**Decision**: Support for combined functions (sequence, operators)
-**Rationale**:
+**决策**: Support for combined functions (sequence, operators)
+**理由**:
 - Build complex from simple functions
 - Reusability of basic functions
 - Expressive for motion profiles
 - Enables procedural generation
 
 ### 5. Lightweight Design
-**Decision**: Value semantics, minimal overhead
-**Rationale**:
+**决策**: Value semantics, minimal overhead
+**理由**:
 - Functions evaluated frequently
 - Small memory footprint
 - Fast cloning and copying
 - Cache-friendly
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Fast Evaluation**: Simple functions compute quickly
 2. **Analytical Derivatives**: Faster than numerical
 3. **No Allocation**: Evaluation doesn't allocate memory
 4. **Inline Potential**: Small functions can be inlined
 5. **Lookup Tables**: Pre-computed for expensive functions
 
-### Considerations
+### 注意事项
 1. **Virtual Call Overhead**: Polymorphism has small cost
 2. **Complex Functions**: B-splines more expensive than polynomials
 3. **Derivative Computation**: Numerical derivatives slower
 4. **Sequence Lookup**: O(n) to find active function segment
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Basic Functions
 ```cpp
@@ -678,7 +678,7 @@ sequenceDiagram
     Motor->>Motor: Apply constraint
 ```
 
-## Summary
+## 总结
 
 The functions module provides:
 - Flexible 1D function interface for time-dependent quantities

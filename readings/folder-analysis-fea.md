@@ -1,12 +1,12 @@
-# FEA Module Architecture Analysis
+# FEA 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/fea` folder implements the Finite Element Analysis (FEA) capabilities in Chrono, providing structural mechanics simulation including beams, shells, solids, and cables. It supports both small and large deformations with various element formulations.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **FEA Mesh Management**: Container for nodes and elements
 2. **Node Types**: 3D position, rotation, shell nodes, etc.
 3. **Element Types**: Beams, shells, solids, cables, springs
@@ -111,7 +111,7 @@ ChMeshExporter.h/cpp        - Export mesh to file
 ChMeshSurface.h/cpp         - Extract mesh surface
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -177,7 +177,7 @@ graph TB
     style MAT fill:#e1ffe1
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. FEA Mesh (ChMesh.h)
 ```cpp
@@ -373,24 +373,24 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **Eigen3**: Linear algebra for element matrices
 - **MKL (optional)**: Fast linear algebra
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector3, ChMatrix for math
 - **physics**: ChPhysicsItem, ChLoadable interfaces
 - **solver**: ChVariables, ChConstraint for DOFs
 - **collision**: ChContactMaterial for contact
 
-### Usage by Other Modules
+### 其他模块的使用
 - **vehicle**: Flexible tires, cables
 - **sensor**: Deformable object visualization
 - **postprocess**: FEA result export
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Create Simple Beam
 ```cpp
@@ -512,11 +512,11 @@ ChMeshFileLoader::FromGmshFile(
 );
 ```
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Modular Element Library
-**Decision**: Wide variety of element types
-**Rationale**:
+**决策**: Wide variety of element types
+**理由**:
 - Different elements for different applications
 - ANCF for large deformations
 - Corotational for moderate deformations
@@ -524,44 +524,44 @@ ChMeshFileLoader::FromGmshFile(
 - User can choose appropriate formulation
 
 ### 2. Separate Nodes and Elements
-**Decision**: Nodes and elements are separate objects
-**Rationale**:
+**决策**: Nodes and elements are separate objects
+**理由**:
 - Flexibility in mesh topology
 - Nodes shared between elements
 - Clear ownership model
 - Standard FEA architecture
 
 ### 3. Material/Section Separation
-**Decision**: Separate material and geometric properties
-**Rationale**:
+**决策**: Separate material and geometric properties
+**理由**:
 - Reusable materials
 - Section properties independent
 - Clear organization
 - Standard in structural analysis
 
 ### 4. Integration with Physics Engine
-**Decision**: FEA elements are ChPhysicsItems
-**Rationale**:
+**决策**: FEA elements are ChPhysicsItems
+**理由**:
 - Seamless integration with rigid bodies
 - Unified solver for everything
 - Contacts between FEA and rigid
 - Single time integration
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Sparse Matrices**: Efficient for large systems
 2. **Parallel Assembly**: Elements assembled in parallel
 3. **Selective Integration**: Reduced integration for efficiency
 4. **Corotational**: Efficient for moderate rotations
 
-### Considerations
+### 注意事项
 1. **Element Count**: Many elements = large system
 2. **Nonlinearity**: Geometric/material nonlinearity expensive
 3. **Contact**: FEA contact is computationally intensive
 4. **Time Steps**: Small steps needed for stability
 
-## Summary
+## 总结
 
 The FEA module provides:
 - Comprehensive finite element library

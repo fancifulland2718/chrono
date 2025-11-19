@@ -1,12 +1,12 @@
-# Timestepper Module Architecture Analysis
+# Timestepper 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/timestepper` folder implements time integration methods for advancing the simulation state. It provides various integration schemes from explicit Euler to implicit methods with different accuracy, stability, and computational cost characteristics.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **Time Integration**: Advance system state from t to t+dt
 2. **Integration Schemes**: Explicit and implicit methods
 3. **Stability Control**: Methods with different stability regions
@@ -14,15 +14,15 @@ The `src/chrono/timestepper` folder implements time integration methods for adva
 5. **Static Analysis**: Solve equilibrium problems
 6. **Assembly Analysis**: Satisfy initial constraints
 
-## Design Characteristics
+## 设计特性
 
-### Architecture Patterns
+### 架构模式
 - **Strategy Pattern**: Pluggable time integration algorithms
 - **Template Method**: Base class defines integration workflow
 - **State Pattern**: Different states (position, velocity, acceleration)
 - **Chain of Responsibility**: Nested integrators for higher-order schemes
 
-### Performance Considerations
+### 性能考虑
 - **Explicit Methods**: Fast per-step, limited stability
 - **Implicit Methods**: Slower per-step, better stability
 - **Adaptive Stepping**: Automatic step size control
@@ -61,7 +61,7 @@ ChStaticAnalysis.h/cpp      - Static equilibrium solver
 ChAssemblyAnalysis.h/cpp    - Initial constraint satisfaction
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -122,7 +122,7 @@ graph TB
     style INT fill:#e1ffe1
 ```
 
-## Class Hierarchy
+## 类层次结构
 
 ```mermaid
 classDiagram
@@ -172,7 +172,7 @@ classDiagram
     ChTimestepper --> ChIntegrable
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. Integrable Interface (ChIntegrable.h)
 ```cpp
@@ -323,63 +323,63 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **Eigen3**: For state vectors and linear algebra
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector, ChMatrix for state representation
 - **solver**: ChSolver for implicit methods
 - **physics**: ChSystem implements ChIntegrable interface
 
-### Usage by Other Modules
+### 其他模块的使用
 - **physics**: ChSystem uses timesteppers for simulation
 - **fea**: Dynamic FEA analysis uses implicit timesteppers
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Integrable Interface
-**Decision**: Separate time integration from physics implementation
-**Rationale**:
+**决策**: Separate time integration from physics implementation
+**理由**:
 - Physics engine focuses on forces and constraints
 - Timestepper focuses on numerical integration
 - Enables testing different integration schemes
 - Supports custom integrable systems
 
 ### 2. State Abstraction
-**Decision**: ChState and ChStateDelta for position/velocity
-**Rationale**:
+**决策**: ChState and ChStateDelta for position/velocity
+**理由**:
 - Uniform interface for different coordinate systems
 - Supports Lie groups (e.g., quaternions)
 - Enables automatic differentiation
 - Simplifies integrator implementation
 
 ### 3. I-order vs II-order
-**Decision**: Separate base classes for 1st and 2nd order ODEs
-**Rationale**:
+**决策**: Separate base classes for 1st and 2nd order ODEs
+**理由**:
 - Most mechanical systems are 2nd order
 - Specialized methods for 2nd order (Newmark, HHT)
 - 1st order useful for custom systems
 - Clear API for each type
 
 ### 4. Implicit with Linearization
-**Decision**: Provide linearized versions of implicit methods
-**Rationale**:
+**决策**: Provide linearized versions of implicit methods
+**理由**:
 - Faster than full Newton-Raphson
 - Acceptable accuracy for many systems
 - One iteration per step
 - Suitable for real-time applications
 
 ### 5. Static and Assembly Analysis
-**Decision**: Separate classes for special analyses
-**Rationale**:
+**决策**: Separate classes for special analyses
+**理由**:
 - Different convergence criteria
 - Specialized algorithms
 - Clear API for users
 - Reuses solver infrastructure
 
-## Performance Characteristics
+## 性能特性
 
 ### Explicit Methods
 **Strengths:**
@@ -423,7 +423,7 @@ graph LR
     style G fill:#ccffcc
 ```
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Selecting a Timestepper
 ```cpp
@@ -610,7 +610,7 @@ euler->SetMaxIters(1);  // Force single iteration
 // dt: fixed at frame rate (e.g., 1/60)
 ```
 
-## Summary
+## 总结
 
 The timestepper module provides:
 - Comprehensive time integration methods from explicit to implicit

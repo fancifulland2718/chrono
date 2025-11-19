@@ -1,12 +1,12 @@
-# Utils Module Architecture Analysis
+# Utils 模块架构分析
 
-## Overview
+## 概述
 
 The `src/chrono/utils` folder contains utility classes and helper functions used across the Chrono codebase. It provides benchmarking tools, geometric utilities, constants, controllers, convex hull computation, and various helper functions.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **Constants**: Physical and mathematical constants
 2. **Convex Hull**: Computational geometry for convex hulls
 3. **Benchmarking**: Performance measurement tools
@@ -69,7 +69,7 @@ ChForceFunctors.h          - Reusable force calculation functors
 ChUtilsInputOutput.h       - I/O helper functions
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -111,7 +111,7 @@ graph TB
     style CTRL fill:#e1ffe1
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. Constants (ChConstants.h)
 ```cpp
@@ -366,23 +366,23 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **OpenMP**: For parallel utilities (optional)
 - **Sockets**: For network communication
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector3, ChMatrix33 for geometry
 - **geometry**: For convex hull and geometric utilities
 
-### Usage by Other Modules
+### 其他模块的使用
 - **All modules**: Use constants, benchmarking, utilities
 - **vehicle**: Uses PID controllers
 - **sensor**: Uses filters for sensor data
 - **particlefactory**: Uses convex hull
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Using Constants
 ```cpp
@@ -532,56 +532,56 @@ client.ReceiveString(response);
 client.Close();
 ```
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Efficient Algorithms**: Optimized convex hull (Quickhull)
 2. **Low Overhead**: Lightweight utilities
 3. **Parallel Support**: OpenMP helpers for multi-threading
 4. **Inline Functions**: Many utilities are header-only
 5. **Minimal Dependencies**: Self-contained implementations
 
-### Considerations
+### 注意事项
 1. **Convex Hull**: O(n log n) complexity
 2. **Filters**: State maintenance overhead
 3. **Socket I/O**: Network latency
 4. **Benchmarking**: Some timing overhead
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Header-Only Utilities
-**Decision**: Many utilities in header files
-**Rationale**:
+**决策**: Many utilities in header files
+**理由**:
 - Easy to use (just include)
 - Compiler can inline
 - No linking required
 - Fast compilation for small utilities
 
 ### 2. Namespace Organization
-**Decision**: Group related utilities in namespaces
-**Rationale**:
+**决策**: Group related utilities in namespaces
+**理由**:
 - Avoid name collisions
 - Clear organization
 - Logical grouping
 - Easy discovery
 
 ### 3. Independent Utilities
-**Decision**: Utilities are self-contained
-**Rationale**:
+**决策**: Utilities are self-contained
+**理由**:
 - Minimal dependencies
 - Easy to extract and reuse
 - Clear interface boundaries
 - Modular design
 
 ### 4. Generic Algorithms
-**Decision**: Template-based for type flexibility
-**Rationale**:
+**决策**: Template-based for type flexibility
+**理由**:
 - Works with different numeric types
 - Compile-time optimization
 - Type-safe
 - Reusable
 
-## Summary
+## 总结
 
 The utils module provides:
 - Essential constants and helper functions
