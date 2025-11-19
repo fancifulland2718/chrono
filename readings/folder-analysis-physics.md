@@ -2,7 +2,7 @@
 
 ## 概述
 
-The `src/chrono/physics` folder contains the core physics engine implementation, including the simulation system, rigid bodies, constraints (links), contact mechanics, and loads. This is the heart of Chrono's multibody dynamics capabilities.
+`src/chrono/physics` 文件夹包含 the core physics engine implementation, including the simulation system, rigid bodies, constraints (links), contact mechanics, and loads. This is the heart of Chrono's multibody dynamics capabilities.
 
 ## 主要功能
 
@@ -20,129 +20,129 @@ The `src/chrono/physics` folder contains the core physics engine implementation,
 
 ### 架构模式
 - **Component Pattern**: Physics items are components added to the system
-- **Strategy Pattern**: Different solver and contact formulations (NSC vs SMC)
-- **Composite Pattern**: ChAssembly allows hierarchical composition
-- **Visitor Pattern**: Used for collision detection and constraint assembly
-- **Factory Pattern**: ChBodyEasy for convenient body creation
+- **策略模式**: Different solver and contact formulations (NSC vs SMC)
+- **组合模式**: ChAssembly allows hierarchical composition
+- **访问者模式**: Used for collision detection and constraint assembly
+- **工厂模式**: ChBodyEasy for convenient body creation
 
 ### 性能考虑
 - **Cache-Friendly Design**: Data structures optimized for sequential access
 - **Lazy Evaluation**: Constraint Jacobians computed only when needed
 - **Contact Pooling**: Reusable contact objects to reduce allocations
-- **Parallel-Ready**: Designed to support OpenMP parallelization
+- **Parallel-读取y**: Designed to support 打开MP parallelization
 
 ## File Structure and Relationships
 
 ### Core System Classes
 ```
-ChSystem.h/cpp              - Abstract base system class
-ChSystemNSC.h/cpp           - Non-smooth contact (DVI) formulation
-ChSystemSMC.h/cpp           - Smooth contact (penalty) formulation
-ChAssembly.h/cpp            - Container for hierarchical organization
+ChSystem .h/cpp              - Abstract base system class
+ChSystemNSC .h/cpp           - Non-smooth contact (DVI) formulation
+ChSystemSMC .h/cpp           - Smooth contact (penalty) formulation
+ChAssembly .h/cpp            - Container for hierarchical organization
 ```
 
 ### Body Hierarchy
 ```
-ChObject.h/cpp              - Root base class with name/tag
-ChPhysicsItem.h/cpp         - Base for all physical entities
-ChBodyFrame.h/cpp           - Coordinate system for bodies
-ChBody.h/cpp                - Standard rigid body
-ChBodyAuxRef.h/cpp          - Body with auxiliary reference frame
-ChBodyEasy.h/cpp            - Convenience factories for common shapes
+ChObject .h/cpp              - Root base class with name/tag
+ChPhysicsItem .h/cpp         - Base for all physical entities
+ChBodyFrame .h/cpp           - Coordinate system for bodies
+ChBody .h/cpp                - Standard rigid body
+ChBodyAuxRef .h/cpp          - Body with auxiliary reference frame
+ChBodyEasy .h/cpp            - Convenience factories for common shapes
 ```
 
 ### Link/Constraint Hierarchy
 ```
-ChLinkBase.h/cpp            - Base for all constraints
-ChLink.h/cpp                - Base for marker-based links
-ChLinkMarkers.h/cpp         - Links using marker points
+ChLinkBase .h/cpp            - Base for all constraints
+ChLink .h/cpp                - Base for marker-based links
+ChLinkMarkers .h/cpp         - Links using marker points
 
 Mates (modern constraint API):
-ChLinkMate.h/cpp            - Base for mate constraints
-ChJoint.h/cpp               - Base for joint constraints
-ChLinkRevolute.h/cpp        - Revolute joint
-ChLinkUniversal.h/cpp       - Universal joint
+ChLinkMate .h/cpp            - Base for mate constraints
+ChJoint .h/cpp               - Base for joint constraints
+ChLinkRevolute .h/cpp        - Revolute joint
+ChLinkUniversal .h/cpp       - Universal joint
 
 Motors:
-ChLinkMotor.h/cpp           - Base motor class
-ChLinkMotorRotation*.h/cpp  - Rotational motors (angle, speed, torque)
-ChLinkMotorLinear*.h/cpp    - Linear motors (position, speed, force)
+ChLinkMotor .h/cpp           - Base motor class
+ChLinkMotorRotation* .h/cpp  - Rotational motors (angle, speed, torque)
+ChLinkMotorLinear* .h/cpp    - Linear motors (position, speed, force)
 
 Legacy Locks:
-ChLinkLock.h/cpp            - Legacy lock-based constraints
-ChLinkLockGear.h/cpp        - Gear constraint
-ChLinkLockPulley.h/cpp      - Pulley constraint
+ChLinkLock .h/cpp            - Legacy lock-based constraints
+ChLinkLockGear .h/cpp        - Gear constraint
+ChLinkLockPulley .h/cpp      - Pulley constraint
 
 Spring-Dampers:
-ChLinkTSDA.h/cpp            - Translational spring-damper-actuator
-ChLinkRSDA.h/cpp            - Rotational spring-damper-actuator
-ChLinkBushing.h/cpp         - 6-DOF bushing element
+ChLinkTSDA .h/cpp            - Translational spring-damper-actuator
+ChLinkRSDA .h/cpp            - Rotational spring-damper-actuator
+ChLinkBushing .h/cpp         - 6-DOF bushing element
 ```
 
 ### Contact System
 ```
-ChContact.h/cpp                 - Base contact class
-ChContactNSC.h/cpp              - NSC (DVI) contact
-ChContactSMC.h/cpp              - SMC (penalty) contact
-ChContactContainer.h/cpp        - Base container
-ChContactContainerNSC.h/cpp     - NSC contact storage
-ChContactContainerSMC.h/cpp     - SMC contact storage
-ChContactMaterial.h/cpp         - Base material
-ChContactMaterialNSC.h/cpp      - NSC material properties
-ChContactMaterialSMC.h/cpp      - SMC material properties (restitution, etc)
-ChContactable.h/cpp             - Interface for contactable objects
+ChContact .h/cpp                 - Base contact class
+ChContactNSC .h/cpp              - NSC (DVI) contact
+ChContactSMC .h/cpp              - SMC (penalty) contact
+ChContactContainer .h/cpp        - Base container
+ChContactContainerNSC .h/cpp     - NSC contact storage
+ChContactContainerSMC .h/cpp     - SMC contact storage
+ChContactMaterial .h/cpp         - Base material
+ChContactMaterialNSC .h/cpp      - NSC material properties
+ChContactMaterialSMC .h/cpp      - SMC material properties (restitution, etc)
+ChContactable .h/cpp             - Interface for contactable objects
 ```
 
 ### Shaft System (1D Rotation)
 ```
-ChShaft.h/cpp                   - 1D rotational element
+ChShaft .h/cpp                   - 1D rotational element
 ChShaftsCouple.h                - Base for shaft couplers
-ChShaftsGear.h/cpp              - Gear constraint
-ChShaftsClutch.h/cpp            - Clutch with engagement
-ChShaftsFreewheel.h/cpp         - One-way coupling
-ChShaftsMotor*.h/cpp            - Motors for shafts
-ChShaftsTorque.h/cpp            - Applied torque
-ChShaftsThermalEngine.h/cpp     - ICE model
-ChShaftsTorqueConverter.h/cpp   - Torque converter
-ChShaftsPlanetary.h/cpp         - Planetary gear set
+ChShaftsGear .h/cpp              - Gear constraint
+ChShaftsClutch .h/cpp            - Clutch with engagement
+ChShaftsFreewheel .h/cpp         - One-way coupling
+ChShaftsMotor* .h/cpp            - Motors for shafts
+ChShaftsTorque .h/cpp            - Applied torque
+ChShaftsThermalEngine .h/cpp     - ICE model
+ChShaftsTorqueConverter .h/cpp   - Torque converter
+ChShaftsPlanetary .h/cpp         - Planetary gear set
 ```
 
 ### Loads System
 ```
-ChLoad.h/cpp                - Base load class
-ChLoadContainer.h/cpp       - Container for loads
+ChLoad .h/cpp                - Base load class
+ChLoadContainer .h/cpp       - Container for loads
 ChLoadable.h                - Interface for loadable objects
-ChLoader*.h/cpp             - Load application strategies
-ChLoadsBody.h/cpp           - Loads on rigid bodies
-ChLoadsNodeXYZ.h/cpp        - Loads on nodes
-ChLoadBodyMesh.h/cpp        - Distributed loads on meshes
+ChLoader* .h/cpp             - Load application strategies
+ChLoadsBody .h/cpp           - Loads on rigid bodies
+ChLoadsNodeXYZ .h/cpp        - Loads on nodes
+ChLoadBodyMesh .h/cpp        - Distributed loads on meshes
 ```
 
 ### Nodes and Particles
 ```
-ChNodeBase.h/cpp            - Base node class
-ChNodeXYZ.h/cpp             - 3D point node
-ChIndexedNodes.h/cpp        - Container for nodes
-ChIndexedParticles.h/cpp    - Particle system
-ChParticleCloud.h/cpp       - Cloud of particles
+ChNodeBase .h/cpp            - Base node class
+ChNodeXYZ .h/cpp             - 3D point node
+ChIndexedNodes .h/cpp        - Container for nodes
+ChIndexedParticles .h/cpp    - Particle system
+ChParticleCloud .h/cpp       - Cloud of particles
 ```
 
 ### Special Elements
 ```
-ChMarker.h/cpp                  - Reference point on body
-ChForce.h/cpp                   - Applied force/torque
-ChConveyor.h/cpp                - Conveyor belt primitive
-ChFeeder.h/cpp                  - Particle feeder
-ChMassProperties.h/cpp          - Inertia calculations
-ChProximityContainer.h/cpp      - Proximity detection container
+ChMarker .h/cpp                  - Reference point on body
+ChForce .h/cpp                   - Applied force/torque
+ChConveyor .h/cpp                - Conveyor belt primitive
+ChFeeder .h/cpp                  - Particle feeder
+ChMass属性 .h/cpp          - Inertia calculations
+ChProximityContainer .h/cpp      - Proximity detection container
 ```
 
 ### Advanced Features
 ```
-ChExternalDynamicsDAE.h/cpp     - External DAE system coupling
-ChExternalDynamicsODE.h/cpp     - External ODE system coupling
-ChHydraulicActuator.h/cpp       - Hydraulic actuator model
-ChHydraulicCircuit.h/cpp        - Hydraulic circuit model
+ChExternalDynamicsDAE .h/cpp     - External DAE system coupling
+ChExternalDynamicsODE .h/cpp     - External ODE system coupling
+ChHydraulicActuator .h/cpp       - Hydraulic actuator model
+ChHydraulicCircuit .h/cpp        - Hydraulic circuit model
 ```
 
 ## 架构图
@@ -252,7 +252,7 @@ classDiagram
         +ChQuaternion rot
         +ChVector pos_dt
         +ChVector rot_dt
-        +ChMassProperties mass
+        +ChMass属性 mass
         +SetPos()
         +SetRot()
         +SetBodyFixed()
@@ -306,12 +306,12 @@ public:
     void AddShaft(std::shared_ptr<ChShaft> shaft);
     void RemoveBody(std::shared_ptr<ChBody> body);
     
-    // Configuration
+    // 配置
     void SetSolver(std::shared_ptr<ChSolver> solver);
     void SetTimestepper(std::shared_ptr<ChTimestepper> stepper);
     void SetCollisionSystem(std::shared_ptr<ChCollisionSystem> coll);
     
-    // State access
+    // 状态 access
     double GetChTime() const;
     void SetChTime(double time);
     int GetNumBodies() const;
@@ -350,7 +350,7 @@ public:
     void AccumulateTorque(const ChVector3& torque, bool local);
     ChVector3 GetAppliedForce() const;
     
-    // State
+    // 状态
     void SetBodyFixed(bool fixed);
     bool IsBodyFixed() const;
     
@@ -369,7 +369,7 @@ public:
     ChBody* GetBody1() const;
     ChBody* GetBody2() const;
     
-    // State
+    // 状态
     virtual void Update(double time, bool update_assets = true);
     bool IsBroken() const;
     
@@ -433,7 +433,7 @@ public:
 ```cpp
 class ChApi ChShaft : public ChPhysicsItem {
 public:
-    // State
+    // 状态
     void SetPos(double pos);  // Angular position
     void SetPosDt(double vel);  // Angular velocity
     double GetPos() const;
@@ -541,7 +541,7 @@ public:
 1. **Efficient Contact Handling**: Pooled contact objects reduce allocations
 2. **Lazy Evaluation**: Jacobians computed only when constraints are active
 3. **Hierarchical Organization**: ChAssembly enables scene graph optimization
-4. **Direct State Access**: Contiguous state vectors for solver efficiency
+4. **Direct State 访问**: Contiguous state vectors for solver efficiency
 
 ### 注意事项
 1. **Virtual Function Overhead**: Polymorphism has cost in tight loops
@@ -553,23 +553,23 @@ public:
 
 ### Creating a Simple System
 ```cpp
-// Create system
+// 创建 system
 ChSystemSMC system;
 system.SetGravitationalAcceleration(ChVector3(0, -9.81, 0));
 
-// Create ground
+// 创建 ground
 auto ground = chrono_types::make_shared<ChBody>();
 ground->SetBodyFixed(true);
 system.AddBody(ground);
 
-// Create moving body
+// 创建 moving body
 auto body = chrono_types::make_shared<ChBody>();
 body->SetMass(10.0);
 body->SetInertiaXX(ChVector3(1, 1, 1));
 body->SetPos(ChVector3(0, 5, 0));
 system.AddBody(body);
 
-// Create constraint
+// 创建 constraint
 auto link = chrono_types::make_shared<ChLinkLockRevolute>();
 link->Initialize(ground, body, ChFrame<>(ChVector3(0, 0, 0)));
 system.AddLink(link);
@@ -594,7 +594,7 @@ body->GetCollisionModel()->SetMaterial(mat_smc);
 
 ### Applying Loads
 ```cpp
-// Create load container
+// 创建 load container
 auto load_container = chrono_types::make_shared<ChLoadContainer>();
 system.Add(load_container);
 
@@ -610,29 +610,29 @@ load_container->Add(force_load);
 
 ## Common Subsystems
 
-### 1. Body Types
+### 1. Body 类型
 - **ChBody**: Standard rigid body
 - **ChBodyAuxRef**: Body with auxiliary reference (COM ≠ ref frame)
 - **ChBodyEasy**: Factory functions for common shapes
 
-### 2. Joint Types
+### 2. Joint 类型
 - **Revolute**: 1-DOF rotation about axis
 - **Prismatic**: 1-DOF translation along axis
 - **Spherical**: 3-DOF rotation (ball joint)
 - **Universal**: 2-DOF rotation (cardan joint)
 - **Cylindrical**: 2-DOF (rotation + translation)
 
-### 3. Motor Types
+### 3. Motor 类型
 - **Position Control**: Prescribed motion trajectory
 - **Speed Control**: Prescribed velocity
 - **Force/Torque Control**: Prescribed force/torque
 
-### 4. Spring-Damper Types
+### 4. Spring-Damper 类型
 - **TSDA**: Translational spring-damper-actuator
 - **RSDA**: Rotational spring-damper-actuator
 - **Bushing**: 6-DOF compliant connection
 
-## Integration Points
+## 集成 Points
 
 ### With Solver Module
 ```cpp
@@ -674,7 +674,7 @@ system.GetCollisionSystem()->Run();
 
 ## 总结
 
-The physics module is the core of Chrono's multibody dynamics engine, providing:
+The physics 模块是 the core of Chrono's multibody dynamics engine, providing:
 - Flexible system architecture supporting NSC and SMC formulations
 - Rich hierarchy of bodies, constraints, and special elements
 - Efficient contact mechanics with material properties

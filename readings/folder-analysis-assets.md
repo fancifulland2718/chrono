@@ -2,7 +2,7 @@
 
 ## 概述
 
-The `src/chrono/assets` folder contains the visualization and rendering infrastructure for Chrono. It provides visual shapes, materials, textures, cameras, and the abstract visualization system interface that connects to rendering backends (Irrlicht, VSG, OpenGL, etc.).
+`src/chrono/assets` 文件夹包含 the visualization and rendering infrastructure for Chrono. It 提供 visual shapes, materials, textures, cameras, and the abstract visualization system interface that connects to rendering backends (Irrlicht, VSG, 打开GL, etc.).
 
 ## 主要功能
 
@@ -17,16 +17,16 @@ The `src/chrono/assets` folder contains the visualization and rendering infrastr
 ## 设计特性
 
 ### 架构模式
-- **Composite Pattern**: Visual models contain multiple shapes
+- **组合模式**: Visual models contain multiple shapes
 - **Bridge Pattern**: Visual system abstracts rendering backend
 - **Decorator Pattern**: Materials decorate shapes
-- **Strategy Pattern**: Different shape representations
-- **Visitor Pattern**: Shape traversal for rendering
+- **策略模式**: Different shape representations
+- **访问者模式**: Shape traversal for rendering
 
 ### 性能考虑
 - **Level of Detail (LOD)**: Future support for different detail levels
 - **Instance Rendering**: Shared shape data for multiple instances
-- **Culling Ready**: Bounding boxes for frustum culling
+- **Culling 读取y**: Bounding boxes for frustum culling
 - **Deferred Updates**: Visual updates decoupled from physics
 - **Backend Optimization**: Actual rendering delegated to specialized engines
 
@@ -34,51 +34,51 @@ The `src/chrono/assets` folder contains the visualization and rendering infrastr
 
 ### Core Visual Classes
 ```
-ChVisualSystem.h/cpp        - Abstract visualization backend
-ChVisualModel.h/cpp         - Collection of visual shapes
-ChVisualShape.h/cpp         - Base visual shape class
-ChCamera.h/cpp              - Camera definition
+ChVisualSystem .h/cpp        - Abstract visualization backend
+ChVisualModel .h/cpp         - Collection of visual shapes
+ChVisualShape .h/cpp         - Base visual shape class
+ChCamera .h/cpp              - Camera definition
 ```
 
 ### Visual Shapes (Primitives)
 ```
-ChVisualShapeBox.h/cpp              - Box shape
-ChVisualShapeSphere.h/cpp           - Sphere shape
-ChVisualShapeCylinder.h/cpp         - Cylinder shape
-ChVisualShapeCone.h/cpp             - Cone shape
-ChVisualShapeCapsule.h/cpp          - Capsule shape
-ChVisualShapeEllipsoid.h/cpp        - Ellipsoid shape
-ChVisualShapeBarrel.h/cpp           - Barrel shape
-ChVisualShapeRoundedBox.h/cpp       - Box with rounded edges
-ChVisualShapeRoundedCylinder.h/cpp  - Cylinder with rounded caps
+ChVisualShapeBox .h/cpp              - Box shape
+ChVisualShapeSphere .h/cpp           - Sphere shape
+ChVisualShapeCylinder .h/cpp         - Cylinder shape
+ChVisualShapeCone .h/cpp             - Cone shape
+ChVisualShapeCapsule .h/cpp          - Capsule shape
+ChVisualShapeEllipsoid .h/cpp        - Ellipsoid shape
+ChVisualShapeBarrel .h/cpp           - Barrel shape
+ChVisualShapeRoundedBox .h/cpp       - Box with rounded edges
+ChVisualShapeRoundedCylinder .h/cpp  - Cylinder with rounded caps
 ```
 
 ### Advanced Shapes
 ```
-ChVisualShapeTriangleMesh.h/cpp     - Triangle mesh
-ChVisualShapeModelFile.h/cpp        - Load from file (OBJ, etc.)
-ChVisualShapeLine.h/cpp             - Line shape
-ChVisualShapePath.h/cpp             - Path/curve shape
-ChVisualShapeSurface.h/cpp          - Parametric surface
-ChVisualShapePointPoint.h/cpp       - Point-to-point connector
+ChVisualShapeTriangleMesh .h/cpp     - Triangle mesh
+ChVisualShapeModelFile .h/cpp        - Load from file (OBJ, etc.)
+ChVisualShapeLine .h/cpp             - Line shape
+ChVisualShapePath .h/cpp             - Path/curve shape
+ChVisualShapeSurface .h/cpp          - Parametric surface
+ChVisualShapePointPoint .h/cpp       - Point-to-point connector
 ```
 
 ### FEA Visualization
 ```
-ChVisualShapeFEA.h/cpp      - FEA mesh visualization
+ChVisualShapeFEA .h/cpp      - FEA mesh visualization
 ```
 
 ### Materials and Appearance
 ```
-ChVisualMaterial.h/cpp      - Material properties (PBR-ready)
-ChColor.h/cpp               - Color representation
-ChColormap.h/cpp            - Color mapping for scalar fields
-ChTexture.h/cpp             - Texture definition
+ChVisualMaterial .h/cpp      - Material properties (PBR-ready)
+ChColor .h/cpp               - Color representation
+ChColormap .h/cpp            - Color mapping for scalar fields
+ChTexture .h/cpp             - Texture definition
 ```
 
 ### Glyphs and Markers
 ```
-ChGlyphs.h/cpp              - Visual markers (arrows, points, etc.)
+ChGlyphs .h/cpp              - Visual markers (arrows, points, etc.)
 ```
 
 ### Utility Header
@@ -94,7 +94,7 @@ graph TB
         VS[ChVisualSystem]
         VSI[ChVisualSystemIrrlicht]
         VSVSG[ChVisualSystemVSG]
-        VSOGL[ChVisualSystemOpenGL]
+        VSOGL[ChVisualSystem打开GL]
     end
     
     subgraph "Visual Model"
@@ -102,7 +102,7 @@ graph TB
         VSHAPE[ChVisualShape]
     end
     
-    subgraph "Shape Types"
+    subgraph "Shape 类型"
         VSBOX[ChVisualShapeBox]
         VSSPH[ChVisualShapeSphere]
         VSCYL[ChVisualShapeCylinder]
@@ -269,7 +269,7 @@ public:
     void RemoveShape(std::shared_ptr<ChVisualShape> shape);
     void Clear();
     
-    // Access
+    // 访问
     size_t GetNumShapes() const;
     std::shared_ptr<ChVisualShape> GetShape(size_t i);
     const ChFrame<>& GetShapeFrame(size_t i) const;
@@ -367,7 +367,7 @@ public:
 ```cpp
 class ChApi ChCamera {
 public:
-    // Construction
+    // 构造
     ChCamera();
     
     // Position and orientation
@@ -420,7 +420,7 @@ public:
     void SetGlyphCoordsys(size_t i,
                          const ChCoordsys<>& csys);
     
-    // Configuration
+    // 配置
     void SetDrawMode(Type type);
     void SetGlyphsSize(double size);
     void SetZbufferHide(bool hide);
@@ -430,7 +430,7 @@ public:
 ## 依赖关系
 
 ### 外部依赖
-- **None**: Assets module is independent of rendering backends
+- **None**: Assets 模块是 independent of rendering backends
 
 ### 内部依赖
 - **core**: ChVector3, ChColor, ChFrame for geometry and transforms
@@ -440,7 +440,7 @@ public:
 ### 其他模块的使用
 - **chrono_irrlicht**: Implements ChVisualSystemIrrlicht
 - **chrono_vsg**: Implements ChVisualSystemVSG  
-- **chrono_opengl**: Implements ChVisualSystemOpenGL
+- **chrono_opengl**: Implements ChVisualSystem打开GL
 - **chrono_sensor**: Uses visual shapes for sensor simulation
 
 ## 关键设计决策
@@ -490,7 +490,7 @@ public:
 ### 优势
 1. **Lightweight Core**: Assets module has minimal overhead
 2. **Instance Rendering**: Shared geometry data
-3. **Culling Ready**: Bounding boxes computed
+3. **Culling 读取y**: Bounding boxes computed
 4. **Deferred Loading**: Meshes loaded on demand
 5. **Backend Optimization**: Actual rendering optimized per backend
 
@@ -505,7 +505,7 @@ public:
 
 ### Adding Visual Shapes to Body
 ```cpp
-// Create body
+// 创建 body
 auto body = chrono_types::make_shared<ChBody>();
 
 // Add visual box
@@ -543,7 +543,7 @@ box_shape->AddMaterial(material);
 
 ### Setting Up Visualization System
 ```cpp
-// Create visualization system (e.g., Irrlicht)
+// 创建 visualization system (e.g., Irrlicht)
 auto vis = chrono_types::make_shared<ChVisualSystemIrrlicht>();
 vis->AttachSystem(&system);
 vis->SetWindowSize(1280, 720);
@@ -585,7 +585,7 @@ mesh->AddVisualShapeFEA(fea_shape);
 
 ### Glyphs for Debugging
 ```cpp
-// Create glyphs for forces
+// 创建 glyphs for forces
 auto glyphs = chrono_types::make_shared<ChGlyphs>();
 glyphs->SetDrawMode(ChGlyphs::Type::VECTOR);
 glyphs->SetGlyphsSize(0.1);
@@ -599,7 +599,7 @@ for (size_t i = 0; i < forces.size(); i++) {
 body->AddVisualShape(glyphs);
 ```
 
-## Visual Shape Types and Use Cases
+## Visual Shape 类型 and Use Cases
 
 ### Primitive Shapes (Fast)
 - **Sphere**: Particles, balls, joints
@@ -651,7 +651,7 @@ mat->SetNormalMapTexture("brick_normal.png");
 mat->SetRoughness(0.8f);
 ```
 
-## Integration with Rendering Backends
+## 集成 with Rendering Backends
 
 ```mermaid
 sequenceDiagram
@@ -662,7 +662,7 @@ sequenceDiagram
     
     Physics->>Model: AddVisualShape()
     Physics->>System: BindAll()
-    System->>Backend: Create render objects
+    System->>Backend: 创建 render objects
     
     loop Render Loop
         Physics->>Physics: DoStepDynamics()
@@ -696,7 +696,7 @@ sequenceDiagram
 
 ## 总结
 
-The assets module provides:
+The assets 模块提供:
 - Flexible visual representation independent of collision
 - Support for both simple primitives and complex meshes
 - Modern PBR material system alongside classic Phong

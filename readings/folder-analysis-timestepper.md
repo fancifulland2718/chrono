@@ -2,13 +2,13 @@
 
 ## 概述
 
-The `src/chrono/timestepper` folder implements time integration methods for advancing the simulation state. It provides various integration schemes from explicit Euler to implicit methods with different accuracy, stability, and computational cost characteristics.
+`src/chrono/timestepper` folder implements time integration methods for advancing the simulation state. It 提供 various integration schemes from explicit Euler to implicit methods with different accuracy, stability, and computational cost characteristics.
 
 ## 主要功能
 
 ### 主要职责
-1. **Time Integration**: Advance system state from t to t+dt
-2. **Integration Schemes**: Explicit and implicit methods
+1. **Time 集成**: Advance system state from t to t+dt
+2. **集成 Schemes**: Explicit and implicit methods
 3. **Stability Control**: Methods with different stability regions
 4. **State Management**: Handle positions, velocities, accelerations
 5. **Static Analysis**: Solve equilibrium problems
@@ -17,7 +17,7 @@ The `src/chrono/timestepper` folder implements time integration methods for adva
 ## 设计特性
 
 ### 架构模式
-- **Strategy Pattern**: Pluggable time integration algorithms
+- **策略模式**: Pluggable time integration algorithms
 - **Template Method**: Base class defines integration workflow
 - **State Pattern**: Different states (position, velocity, acceleration)
 - **Chain of Responsibility**: Nested integrators for higher-order schemes
@@ -34,31 +34,31 @@ The `src/chrono/timestepper` folder implements time integration methods for adva
 ```
 ChIntegrable.h              - Interface for integrable systems
 ChState.h                   - State vector representation
-ChTimestepper.h/cpp         - Abstract base timestepper
+ChTimestepper .h/cpp         - Abstract base timestepper
 ```
 
 ### Explicit Methods
 ```
-ChTimestepperEulerExpl.h/cpp              - Forward Euler (1st order)
-ChTimestepperEulerExplIIorder.h/cpp       - Explicit Euler for 2nd order
-ChTimestepperRungeKutta45.h/cpp           - RK4(5) adaptive
-ChTimestepperHeun.h/cpp                   - Heun's method (RK2)
+ChTimestepperEulerExpl .h/cpp              - Forward Euler (1st order)
+ChTimestepperEulerExplIIorder .h/cpp       - Explicit Euler for 2nd order
+ChTimestepperRungeKutta45 .h/cpp           - RK4(5) adaptive
+ChTimestepperHeun .h/cpp                   - Heun's method (RK2)
 ```
 
 ### Implicit Methods
 ```
-ChTimestepperEulerImplicit.h/cpp          - Backward Euler
-ChTimestepperEulerImplicitLinearized.h/cpp - Linearized backward Euler
-ChTimestepperEulerImplicitProjected.h/cpp  - Projected backward Euler
-ChTimestepperTrapezoidalLinearized.h/cpp   - Trapezoidal rule
-ChTimestepperNewmark.h/cpp                 - Newmark method
-ChTimestepperHHT.h/cpp                     - HHT-alpha method
+ChTimestepperEulerImplicit .h/cpp          - Backward Euler
+ChTimestepperEulerImplicitLinearized .h/cpp - Linearized backward Euler
+ChTimestepperEulerImplicitProjected .h/cpp  - Projected backward Euler
+ChTimestepperTrapezoidalLinearized .h/cpp   - Trapezoidal rule
+ChTimestepperNewmark .h/cpp                 - Newmark method
+ChTimestepperHHT .h/cpp                     - HHT-alpha method
 ```
 
 ### Special Analysis
 ```
-ChStaticAnalysis.h/cpp      - Static equilibrium solver
-ChAssemblyAnalysis.h/cpp    - Initial constraint satisfaction
+ChStaticAnalysis .h/cpp      - Static equilibrium solver
+ChAssemblyAnalysis .h/cpp    - Initial constraint satisfaction
 ```
 
 ## 架构图
@@ -178,12 +178,12 @@ classDiagram
 ```cpp
 class ChApi ChIntegrable {
 public:
-    // State information
+    // 状态 information
     virtual int GetNumCoordsPosLevel() = 0;  // Position DOFs
     virtual int GetNumCoordsVelLevel() = 0;  // Velocity DOFs
     virtual int GetNumConstraints() = 0;      // Constraints
     
-    // State scatter/gather
+    // 状态 scatter/gather
     virtual void StateGather(ChState& x, ChStateDelta& v, double& T) = 0;
     virtual void StateScatter(const ChState& x, 
                              const ChStateDelta& v, 
@@ -210,10 +210,10 @@ public:
 ```cpp
 class ChApi ChTimestepper {
 public:
-    // Integration step
+    // 集成 step
     virtual void Advance(const double dt) = 0;
     
-    // Configuration
+    // 配置
     void SetIntegrable(ChIntegrable* integrable);
     ChIntegrable* GetIntegrable();
     
@@ -318,7 +318,7 @@ public:
                          int max_iters = 20,
                          double tolerance = 1e-6);
     
-    // Configuration
+    // 配置
     void SetIntegrable(ChIntegrable* integrable);
 };
 ```
@@ -403,7 +403,7 @@ public:
 - Nonlinear iterations needed
 - More memory for factorization
 
-## Integration Scheme Comparison
+## 集成 Scheme Comparison
 
 ```mermaid
 graph LR
@@ -493,7 +493,7 @@ class MySystem : public ChIntegrable {
 };
 ```
 
-## Integration Step Workflow
+## 集成 Step Workflow
 
 ```mermaid
 sequenceDiagram
@@ -554,7 +554,7 @@ static_analysis.IncrementalStaticSolve(
 // Useful for large deformations
 ```
 
-## Integration Accuracy
+## 集成 Accuracy
 
 ### Order of Accuracy
 - **Euler Explicit**: O(dt) - 1st order
@@ -612,7 +612,7 @@ euler->SetMaxIters(1);  // Force single iteration
 
 ## 总结
 
-The timestepper module provides:
+The timestepper 模块提供:
 - Comprehensive time integration methods from explicit to implicit
 - Specialized methods for mechanical systems (2nd order ODEs)
 - Static and assembly analysis capabilities

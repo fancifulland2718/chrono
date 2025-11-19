@@ -2,7 +2,7 @@
 
 ## 概述
 
-The `src/chrono/solver` folder contains the numerical solvers for solving the equations of motion in Chrono. It includes constraint-based solvers for both variational inequality (VI) problems and linear systems, supporting different formulations (NSC/DVI and SMC) and optimization algorithms.
+`src/chrono/solver` 文件夹包含 the numerical solvers for solving the equations of motion in Chrono. It includes constraint-based solvers for both variational inequality (VI) problems and linear systems, supporting different formulations (NSC/DVI and SMC) and optimization algorithms.
 
 ## 主要功能
 
@@ -18,93 +18,93 @@ The `src/chrono/solver` folder contains the numerical solvers for solving the eq
 ## 设计特性
 
 ### 架构模式
-- **Strategy Pattern**: Pluggable solver algorithms
+- **策略模式**: Pluggable solver algorithms
 - **Template Method**: Base solver with customizable steps
-- **Composite Pattern**: Constraint tuples for multi-body constraints
+- **组合模式**: Constraint tuples for multi-body constraints
 - **Iterator Pattern**: Traversal of constraint and variable lists
 - **Descriptor Pattern**: ChSystemDescriptor aggregates all DOFs and constraints
 
 ### 性能考虑
-- **Sparse Matrix Operations**: Optimized for sparse Jacobians
+- **Sparse Matrix 操作**: Optimized for sparse Jacobians
 - **Iterative Refinement**: Trade accuracy for speed
 - **Warm Starting**: Reuse previous solution as initial guess
-- **Parallel Solvers**: Some solvers support OpenMP parallelization
+- **Parallel Solvers**: Some solvers support 打开MP parallelization
 - **Memory Efficiency**: In-place operations, minimal allocations
 
 ## File Structure and Relationships
 
 ### Solver Base Classes
 ```
-ChSolver.h/cpp              - Abstract base solver
-ChSolverVI.h/cpp            - VI (complementarity) solver base
-ChSolverLS.h/cpp            - Linear system solver base
-ChDirectSolverLS.h/cpp      - Direct linear solver base
+ChSolver .h/cpp              - Abstract base solver
+ChSolverVI .h/cpp            - VI (complementarity) solver base
+ChSolverLS .h/cpp            - Linear system solver base
+ChDirectSolverLS .h/cpp      - Direct linear solver base
 ChDirectSolverLScomplex.h   - Complex direct solver
-ChIterativeSolver.h/cpp     - Iterative solver base
+ChIterativeSolver .h/cpp     - Iterative solver base
 ```
 
 ### Iterative VI Solvers
 ```
-ChSolverPSOR.h/cpp          - Projected SOR (fastest, default for NSC)
-ChSolverPSSOR.h/cpp         - Projected symmetric SOR
-ChSolverPJacobi.h/cpp       - Projected Jacobi
-ChSolverAPGD.h/cpp          - Accelerated projected gradient descent
-ChSolverADMM.h/cpp          - ADMM (Alternating Direction Method)
-ChSolverBB.h/cpp            - Barzilai-Borwein method
+ChSolverPSOR .h/cpp          - Projected SOR (fastest, default for NSC)
+ChSolverPSSOR .h/cpp         - Projected symmetric SOR
+ChSolverPJacobi .h/cpp       - Projected Jacobi
+ChSolverAPGD .h/cpp          - Accelerated projected gradient descent
+ChSolverADMM .h/cpp          - ADMM (Alternating Direction Method)
+ChSolverBB .h/cpp            - Barzilai-Borwein method
 ```
 
 ### Linear System Solvers
 ```
-ChSolverPMINRES.h/cpp       - Preconditioned MINRES
-ChSolverGMRES.h/cpp         - GMRES iterative method
-ChSolverBiCGSTAB.h/cpp      - BiCGSTAB method
-ChSolverCG.h/cpp            - Conjugate Gradient
+ChSolverPMINRES .h/cpp       - Preconditioned MINRES
+ChSolverGMRES .h/cpp         - GMRES iterative method
+ChSolverBiCGSTAB .h/cpp      - BiCGSTAB method
+ChSolverCG .h/cpp            - Conjugate Gradient
 ```
 
 ### Direct Solvers (External)
 ```
 ChDirectSolverLS.h          - Interface for direct solvers
-ChSolverSparseLU.h/cpp      - Sparse LU decomposition (Eigen)
-ChSolverSparseQR.h/cpp      - Sparse QR decomposition (Eigen)
-ChSolverDenseQR.h/cpp       - Dense QR (small systems)
+ChSolverSparseLU .h/cpp      - Sparse LU decomposition (Eigen)
+ChSolverSparseQR .h/cpp      - Sparse QR decomposition (Eigen)
+ChSolverDenseQR .h/cpp       - Dense QR (small systems)
 ```
 
 ### System Descriptor
 ```
-ChSystemDescriptor.h/cpp    - Aggregates variables and constraints
-ChKRMBlock.h/cpp            - KKT matrix block representation
+ChSystemDescriptor .h/cpp    - Aggregates variables and constraints
+ChKRMBlock .h/cpp            - KKT matrix block representation
 ```
 
 ### Variables (DOFs)
 ```
-ChVariables.h/cpp                   - Base DOF container
-ChVariablesBody.h/cpp               - 6-DOF rigid body
-ChVariablesBodyOwnMass.h/cpp        - Body with own mass matrix
-ChVariablesGeneric.h/cpp            - Generic n-DOF
+ChVariables .h/cpp                   - Base DOF container
+ChVariablesBody .h/cpp               - 6-DOF rigid body
+ChVariablesBodyOwnMass .h/cpp        - Body with own mass matrix
+ChVariablesGeneric .h/cpp            - Generic n-DOF
 ChVariablesGenericDiagonalMass.h    - Diagonal mass matrix
-ChVariablesNode.h/cpp               - Node (FEA, particles)
-ChVariablesShaft.h/cpp              - 1-DOF shaft
+ChVariablesNode .h/cpp               - Node (FEA, particles)
+ChVariablesShaft .h/cpp              - 1-DOF shaft
 ```
 
 ### Constraints
 ```
-ChConstraint.h/cpp                  - Base constraint
-ChConstraintTwo.h/cpp               - 2-body constraint base
-ChConstraintTwoBodies.h/cpp         - 2 rigid bodies
-ChConstraintTwoGeneric.h/cpp        - 2 generic variables
-ChConstraintTwoGenericBoxed.h/cpp   - Boxed constraint (limits)
-ChConstraintThree.h/cpp             - 3-body constraint base
-ChConstraintThreeGeneric.h/cpp      - 3 generic variables
-ChConstraintThreeBBShaft.h/cpp      - 2 bodies + 1 shaft
-ChConstraintNgeneric.h/cpp          - N generic variables
+ChConstraint .h/cpp                  - Base constraint
+ChConstraintTwo .h/cpp               - 2-body constraint base
+ChConstraintTwoBodies .h/cpp         - 2 rigid bodies
+ChConstraintTwoGeneric .h/cpp        - 2 generic variables
+ChConstraintTwoGenericBoxed .h/cpp   - Boxed constraint (limits)
+ChConstraintThree .h/cpp             - 3-body constraint base
+ChConstraintThreeGeneric .h/cpp      - 3 generic variables
+ChConstraintThreeBBShaft .h/cpp      - 2 bodies + 1 shaft
+ChConstraintNgeneric .h/cpp          - N generic variables
 ```
 
 ### Contact Constraints
 ```
-ChConstraintContactNormal.h/cpp         - Normal contact force
-ChConstraintContactTangential.h/cpp     - Tangential friction
-ChConstraintRollingNormal.h/cpp         - Rolling friction
-ChConstraintRollingTangential.h/cpp     - Spinning friction
+ChConstraintContactNormal .h/cpp         - Normal contact force
+ChConstraintContactTangential .h/cpp     - Tangential friction
+ChConstraintRollingNormal .h/cpp         - Rolling friction
+ChConstraintRollingTangential .h/cpp     - Spinning friction
 ```
 
 ### Constraint Tuples
@@ -265,7 +265,7 @@ public:
     // Main solve method
     virtual double Solve(ChSystemDescriptor& sysd) = 0;
     
-    // Configuration
+    // 配置
     void SetMaxIterations(int max_iters);
     int GetMaxIterations() const;
     
@@ -335,7 +335,7 @@ public:
     void ConstraintsProject(ChVectorDynamic<>& multipliers);
     void ConstraintsFetch_react(double factor);
     
-    // Access
+    // 访问
     std::vector<ChVariables*>& GetVariables();
     std::vector<ChConstraint*>& GetConstraints();
 };
@@ -349,7 +349,7 @@ public:
     virtual int GetDOF() const = 0;
     int GetOffset() const;
     
-    // State vectors
+    // 状态 vectors
     virtual ChVectorRef GetQb() = 0;          // Force vector
     virtual ChVectorRef GetState() = 0;       // Position/velocity
     virtual ChVectorRef GetStateDt() = 0;     // Velocity/acceleration
@@ -390,7 +390,7 @@ public:
         UNILATERAL  // Inequality constraint (>= 0)
     };
     
-    // Configuration
+    // 配置
     void SetMode(Mode mode);
     Mode GetMode() const;
     
@@ -447,7 +447,7 @@ public:
 
 ### 内部依赖
 - **core**: ChVector, ChMatrix for linear algebra
-- **physics**: ChPhysicsItem provides variables and constraints
+- **physics**: ChPhysicsItem 提供 variables and constraints
 - **timestepper**: Provides mass matrix and force calculations
 
 ### 其他模块的使用
@@ -500,7 +500,7 @@ public:
 ## 性能特性
 
 ### 优势
-1. **Sparse Operations**: Optimized for sparse constraint Jacobians
+1. **Sparse 操作**: Optimized for sparse constraint Jacobians
 2. **Iterative Solvers**: Scale well to large systems
 3. **Warm Starting**: Reduces iterations in sequential time steps
 4. **Block Structure**: Exploits block diagonal mass matrix
@@ -550,7 +550,7 @@ auto solver = chrono_types::make_shared<ChSolverSparseLU>();
 ## Typical Solver Configuration
 
 ```cpp
-// Configure system descriptor
+// 配置 system descriptor
 ChSystemDescriptor system_descriptor;
 
 // Add variables (automatically done by physics items)
@@ -632,7 +632,7 @@ direct_solver->Solve(A, b, x);
 - **Strengths**: Handles non-symmetric systems
 - **Weaknesses**: Requires preconditioning for fast convergence
 
-## Integration with Physics System
+## 集成 with Physics System
 
 ```mermaid
 sequenceDiagram
@@ -655,12 +655,12 @@ sequenceDiagram
 
 ## 总结
 
-The solver module provides:
+The solver 模块提供:
 - Comprehensive solver library for constrained dynamics
 - Specialized VI solvers for contact/friction (NSC)
 - Linear system solvers for smooth systems (SMC)
 - Efficient sparse matrix operations
 - Flexible variable and constraint abstractions
-- Integration with external solver libraries
+- 集成 with external solver libraries
 
 Its design emphasizes performance through sparse operations and iterative methods while maintaining flexibility through abstract interfaces and pluggable solver algorithms. The descriptor pattern enables efficient system assembly and uniform solver interfaces.

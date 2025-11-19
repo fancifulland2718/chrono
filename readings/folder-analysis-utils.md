@@ -2,7 +2,7 @@
 
 ## 概述
 
-The `src/chrono/utils` folder contains utility classes and helper functions used across the Chrono codebase. It provides benchmarking tools, geometric utilities, constants, controllers, convex hull computation, and various helper functions.
+`src/chrono/utils` 文件夹包含 utility classes and helper functions used across the Chrono codebase. It 提供 benchmarking tools, geometric utilities, constants, controllers, convex hull computation, and various helper functions.
 
 ## 主要功能
 
@@ -13,12 +13,12 @@ The `src/chrono/utils` folder contains utility classes and helper functions used
 4. **Controllers**: PID and other control algorithms
 5. **Body Geometry**: Helper functions for body creation
 6. **Filters**: Signal processing and data filtering
-7. **OpenMP Utilities**: Parallel computing helpers
+7. **打开MP 实用程序**: Parallel computing helpers
 8. **Socket Communication**: Network communication support
 
 ## File Structure and Relationships
 
-### Core Utilities
+### Core 实用程序
 ```
 ChConstants.h               - Physical and mathematical constants
 ChUtilsCreators.h          - Factory functions for common objects
@@ -28,34 +28,34 @@ ChFilters.h                - Signal filtering and processing
 
 ### Computational Geometry
 ```
-ChConvexHull.h/cpp         - Convex hull computation (Quickhull)
+ChConvexHull .h/cpp         - Convex hull computation (Quickhull)
 ```
 
 ### Performance and Benchmarking
 ```
-ChBenchmark.h/cpp          - Performance benchmarking tools
+ChBenchmark .h/cpp          - Performance benchmarking tools
 ChProfiler.h               - Code profiling utilities
 ```
 
 ### Control Systems
 ```
-ChControllers.h/cpp        - PID and control algorithms
+ChControllers .h/cpp        - PID and control algorithms
 ```
 
 ### Body Creation
 ```
-ChBodyGeometry.h/cpp       - Helper functions for body geometry
+ChBodyGeometry .h/cpp       - Helper functions for body geometry
 ChUtilsGeometry.h          - Geometric utility functions
 ```
 
 ### Parallel Computing
 ```
-ChOpenMP.h                 - OpenMP helpers and utilities
+Ch打开MP.h                 - 打开MP helpers and utilities
 ```
 
 ### Communication
 ```
-ChSocketCommunication.h/cpp - TCP/IP socket communication
+ChSocketCommunication .h/cpp - TCP/IP socket communication
 ChSocketFramework.h         - Socket framework support
 ```
 
@@ -95,7 +95,7 @@ graph TB
     end
     
     subgraph "Parallel & Communication"
-        OMP[ChOpenMP]
+        OMP[Ch打开MP]
         SOCK[ChSocketCommunication]
     end
     
@@ -232,8 +232,8 @@ public:
 ### 5. Body Geometry Helpers (ChBodyGeometry.h)
 ```cpp
 namespace utils {
-    // Create body with box collision and visual
-    std::shared_ptr<ChBody> CreateBoxBody(
+    // 创建 body with box collision and visual
+    std::shared_ptr<ChBody> 创建BoxBody(
         const ChVector3& size,
         double density,
         const ChVector3& pos,
@@ -242,8 +242,8 @@ namespace utils {
         bool visual = true
     );
     
-    // Create sphere body
-    std::shared_ptr<ChBody> CreateSphereBody(
+    // 创建 sphere body
+    std::shared_ptr<ChBody> 创建SphereBody(
         double radius,
         double density,
         const ChVector3& pos,
@@ -251,8 +251,8 @@ namespace utils {
         bool visual = true
     );
     
-    // Create cylinder body
-    std::shared_ptr<ChBody> CreateCylinderBody(
+    // 创建 cylinder body
+    std::shared_ptr<ChBody> 创建CylinderBody(
         double radius,
         double height,
         double density,
@@ -279,13 +279,13 @@ class ChApi ChLowPassFilter {
 public:
     ChLowPassFilter(double cutoff_freq, double dt);
     
-    // Process sample
+    // 处理 sample
     double Filter(double input);
     
     // Reset
     void Reset();
     
-    // Configuration
+    // 配置
     void SetCutoffFrequency(double freq);
     void SetTimeStep(double dt);
 };
@@ -316,9 +316,9 @@ public:
 };
 ```
 
-### 7. OpenMP Utilities (ChOpenMP.h)
+### 7. 打开MP 实用程序 (Ch打开MP.h)
 ```cpp
-namespace ChOpenMP {
+namespace Ch打开MP {
     // Get/set number of threads
     int GetNumThreads();
     void SetNumThreads(int num_threads);
@@ -358,8 +358,8 @@ public:
     bool SendString(const std::string& str);
     bool ReceiveString(std::string& str);
     
-    // Close
-    void Close();
+    // 关闭
+    void 关闭();
     
     // Status
     bool IsConnected() const;
@@ -369,7 +369,7 @@ public:
 ## 依赖关系
 
 ### 外部依赖
-- **OpenMP**: For parallel utilities (optional)
+- **打开MP**: For parallel utilities (optional)
 - **Sockets**: For network communication
 
 ### 内部依赖
@@ -441,7 +441,7 @@ if (success) {
 
 ### PID Controller
 ```cpp
-// Create PID controller
+// 创建 PID controller
 ChControllerPID pid(1.0, 0.1, 0.01);  // Kp, Ki, Kd
 pid.SetOutputLimits(-100, 100);
 
@@ -456,8 +456,8 @@ while (simulating) {
 
 ### Body Creation Helpers
 ```cpp
-// Create box body with collision and visual
-auto box = utils::CreateBoxBody(
+// 创建 box body with collision and visual
+auto box = utils::创建BoxBody(
     ChVector3(1, 0.5, 2),  // size
     1000,                   // density
     ChVector3(0, 5, 0),    // position
@@ -467,8 +467,8 @@ auto box = utils::CreateBoxBody(
 );
 system.AddBody(box);
 
-// Create sphere
-auto sphere = utils::CreateSphereBody(0.5, 1000,
+// 创建 sphere
+auto sphere = utils::创建SphereBody(0.5, 1000,
                                      ChVector3(1, 1, 0));
 system.AddBody(sphere);
 ```
@@ -492,20 +492,20 @@ for (double sample : data) {
 }
 ```
 
-### OpenMP Parallelization
+### 打开MP Parallelization
 ```cpp
 // Set number of threads
-ChOpenMP::SetNumThreads(8);
+Ch打开MP::SetNumThreads(8);
 
 // Parallel for loop
 std::vector<double> results(1000);
-ChOpenMP::ParallelFor(0, 1000, [&](int i) {
+Ch打开MP::ParallelFor(0, 1000, [&](int i) {
     results[i] = ExpensiveComputation(i);
 });
 
 // Parallel reduction
 std::vector<double> data(10000);
-double sum = ChOpenMP::ParallelSum(data);
+double sum = Ch打开MP::ParallelSum(data);
 ```
 
 ### Socket Communication
@@ -519,7 +519,7 @@ std::string message;
 server.ReceiveString(message);
 server.SendString("ACK");
 
-server.Close();
+server.关闭();
 
 // Client side
 ChSocketTCP client;
@@ -529,7 +529,7 @@ client.SendString("Hello");
 std::string response;
 client.ReceiveString(response);
 
-client.Close();
+client.关闭();
 ```
 
 ## 性能特性
@@ -537,7 +537,7 @@ client.Close();
 ### 优势
 1. **Efficient Algorithms**: Optimized convex hull (Quickhull)
 2. **Low Overhead**: Lightweight utilities
-3. **Parallel Support**: OpenMP helpers for multi-threading
+3. **Parallel Support**: 打开MP helpers for multi-threading
 4. **Inline Functions**: Many utilities are header-only
 5. **Minimal Dependencies**: Self-contained implementations
 
@@ -549,7 +549,7 @@ client.Close();
 
 ## 关键设计决策
 
-### 1. Header-Only Utilities
+### 1. Header-Only 实用程序
 **决策**: Many utilities in header files
 **理由**:
 - Easy to use (just include)
@@ -565,8 +565,8 @@ client.Close();
 - Logical grouping
 - Easy discovery
 
-### 3. Independent Utilities
-**决策**: Utilities are self-contained
+### 3. Independent 实用程序
+**决策**: 实用程序 are self-contained
 **理由**:
 - Minimal dependencies
 - Easy to extract and reuse
@@ -583,14 +583,14 @@ client.Close();
 
 ## 总结
 
-The utils module provides:
+The utils 模块提供:
 - Essential constants and helper functions
 - Computational geometry (convex hull)
 - Performance benchmarking and profiling
 - Control algorithms (PID)
 - Signal filtering and processing
 - Body creation helpers
-- OpenMP utilities for parallelization
+- 打开MP utilities for parallelization
 - Socket communication support
 
 Its design emphasizes reusability, performance, and ease of use, providing common functionality needed across the Chrono codebase in a well-organized and efficient manner.

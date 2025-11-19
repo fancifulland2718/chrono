@@ -2,7 +2,7 @@
 
 ## 概述
 
-The `src/chrono/functions` folder provides mathematical function representations for time-dependent and parametric functions. These functions are used throughout Chrono for motion profiles, actuator control, force functions, and data interpolation.
+`src/chrono/functions` folder 提供 mathematical function representations for time-dependent and parametric functions. These functions are used throughout Chrono for motion profiles, actuator control, force functions, and data interpolation.
 
 ## 主要功能
 
@@ -10,91 +10,91 @@ The `src/chrono/functions` folder provides mathematical function representations
 1. **Function Interface**: Abstract base for 1D functions f(x) → y
 2. **Basic Functions**: Constants, ramps, polynomials, sinusoids
 3. **Interpolation**: Linear, cubic spline, B-spline interpolation
-4. **Operations**: Function composition, arithmetic, derivatives
+4. **操作**: Function composition, arithmetic, derivatives
 5. **Motion Profiles**: Prescribed motion for actuators and constraints
 6. **Rotation Functions**: 3D rotation as function of parameter
 
 ## 设计特性
 
 ### 架构模式
-- **Strategy Pattern**: Interchangeable function implementations
-- **Composite Pattern**: Combined functions (sum, product, composition)
+- **策略模式**: Interchangeable function implementations
+- **组合模式**: Combined functions (sum, product, composition)
 - **Template Method**: Base class defines evaluation interface
 - **Decorator Pattern**: Function wrappers for modifications
-- **Factory Pattern**: Common function creation
+- **工厂模式**: Common function creation
 
 ### 性能考虑
 - **Efficient Evaluation**: Fast computation of function values
 - **Derivative Caching**: Analytical derivatives when possible
 - **Lookup Tables**: Pre-computed values for expensive functions
-- **Inline Operations**: Small functions inlined for performance
+- **Inline 操作**: Small functions inlined for performance
 - **Minimal Allocation**: Value types, no unnecessary copies
 
 ## File Structure and Relationships
 
 ### Base Classes
 ```
-ChFunction.h/cpp            - Abstract 1D function base
+ChFunction .h/cpp            - Abstract 1D function base
 ChFunctionBase.h            - Additional base functionality
-ChFunctionRotation.h/cpp    - Base for rotation functions
+ChFunctionRotation .h/cpp    - Base for rotation functions
 ```
 
 ### Basic Functions
 ```
-ChFunctionConst.h/cpp       - Constant value
-ChFunctionRamp.h/cpp        - Linear ramp
-ChFunctionPoly.h/cpp        - Polynomial (generic degree)
-ChFunctionPoly23.h/cpp      - 2nd and 3rd degree polynomials
-ChFunctionPoly345.h/cpp     - 3rd, 4th, 5th degree polynomials
-ChFunctionSine.h/cpp        - Sinusoidal function
-ChFunctionCos.h/cpp         - Cosine function
+ChFunctionConst .h/cpp       - Constant value
+ChFunctionRamp .h/cpp        - Linear ramp
+ChFunctionPoly .h/cpp        - Polynomial (generic degree)
+ChFunctionPoly23 .h/cpp      - 2nd and 3rd degree polynomials
+ChFunctionPoly345 .h/cpp     - 3rd, 4th, 5th degree polynomials
+ChFunctionSine .h/cpp        - Sinusoidal function
+ChFunctionCos .h/cpp         - Cosine function
 ```
 
 ### Interpolation Functions
 ```
-ChFunctionInterp.h/cpp      - Linear interpolation
-ChFunctionBSpline.h/cpp     - B-spline interpolation
+ChFunctionInterp .h/cpp      - Linear interpolation
+ChFunctionBSpline .h/cpp     - B-spline interpolation
 ChFunctionBspline.h         - Alternative B-spline
 ```
 
 ### Combined Functions
 ```
-ChFunctionSequence.h/cpp    - Piecewise sequence of functions
-ChFunctionOperator.h/cpp    - Arithmetic operations on functions
-ChFunctionDerivative.h/cpp  - Numerical derivative of function
-ChFunctionIntegral.h/cpp    - Numerical integral of function
+ChFunctionSequence .h/cpp    - Piecewise sequence of functions
+ChFunctionOperator .h/cpp    - Arithmetic operations on functions
+ChFunctionDerivative .h/cpp  - Numerical derivative of function
+ChFunctionIntegral .h/cpp    - Numerical integral of function
 ```
 
 ### Motion Profile Functions
 ```
-ChFunctionConstAcc.h/cpp    - Constant acceleration profile
-ChFunctionConstJerk.h/cpp   - Constant jerk profile
-ChFunctionCycloidal.h/cpp   - Cycloidal motion profile
-ChFunctionLambda.h/cpp      - Custom function from lambda
+ChFunctionConstAcc .h/cpp    - Constant acceleration profile
+ChFunctionConstJerk .h/cpp   - Constant jerk profile
+ChFunctionCycloidal .h/cpp   - Cycloidal motion profile
+ChFunctionLambda .h/cpp      - Custom function from lambda
 ```
 
 ### Rotation Functions
 ```
-ChFunctionRotation.h/cpp                - Base rotation function
-ChFunctionRotationAxis.h/cpp            - Rotation about axis
-ChFunctionRotationABCFunctions.h/cpp    - Euler angles as functions
-ChFunctionRotationBSpline.h/cpp         - B-spline rotation
-ChFunctionRotationSetpoint.h/cpp        - Setpoint interpolation
-ChFunctionRotationSQUAD.h/cpp           - Spherical quadrangle interpolation
+ChFunctionRotation .h/cpp                - Base rotation function
+ChFunctionRotationAxis .h/cpp            - Rotation about axis
+ChFunctionRotationABCFunctions .h/cpp    - Euler angles as functions
+ChFunctionRotationBSpline .h/cpp         - B-spline rotation
+ChFunctionRotationSetpoint .h/cpp        - Setpoint interpolation
+ChFunctionRotationSQUAD .h/cpp           - Spherical quadrangle interpolation
 ```
 
 ### Special Functions
 ```
-ChFunctionMirror.h/cpp      - Mirror function about axis
-ChFunctionRepeat.h/cpp      - Repeat function periodically
-ChFunctionFillet3.h/cpp     - Smooth fillet between segments
+ChFunctionMirror .h/cpp      - Mirror function about axis
+ChFunctionRepeat .h/cpp      - Repeat function periodically
+ChFunctionFillet3 .h/cpp     - Smooth fillet between segments
 ```
 
 ## 架构图
 
 ```mermaid
 graph TB
-    subgraph "Base Classes"
+    subgraph "基类"
         FUNC[ChFunction]
         FBASE[ChFunctionBase]
         FROT[ChFunctionRotation]
@@ -231,11 +231,11 @@ public:
     virtual double GetMin() const;
     virtual double GetMax() const;
     
-    // Integration
+    // 集成
     virtual double GetIntegral(double x1, double x2) const;
     virtual double GetPositiveAcceleration(double x) const;
     
-    // Operations
+    // 操作
     virtual void Estimate_x_range(double& xmin, double& xmax) const;
     virtual void Estimate_y_range(double xmin, double xmax,
                                   double& ymin, double& ymax,
@@ -293,7 +293,7 @@ public:
     void SetPoints(const std::vector<double>& x,
                   const std::vector<double>& y);
     
-    // Configuration
+    // 配置
     void SetInterpolationType(InterpolationType type);
     void SetExtrapolation(bool extrapolate);
     
@@ -301,7 +301,7 @@ public:
     double GetVal(double x) const override;
     double GetDer(double x) const override;
     
-    // Access
+    // 访问
     size_t GetNumPoints() const;
     double GetPointX(size_t i) const;
     double GetPointY(size_t i) const;
@@ -312,7 +312,7 @@ public:
 ```cpp
 class ChApi ChFunctionBSpline : public ChFunction {
 public:
-    // Construction
+    // 构造
     ChFunctionBSpline(int order,
                      const std::vector<double>& control_points,
                      const std::vector<double>& knots = {});
@@ -325,7 +325,7 @@ public:
     double GetVal(double x) const override;
     double GetDer(double x) const override;
     
-    // Access
+    // 访问
     int GetOrder() const;
     const std::vector<double>& GetControlPoints() const;
     void SetControlPoint(int i, double value);
@@ -346,7 +346,7 @@ public:
     double GetVal(double x) const override;
     double GetDer(double x) const override;
     
-    // Access
+    // 访问
     size_t GetNumFunctions() const;
     std::shared_ptr<ChFunction> GetFunction(size_t i);
     double GetDuration(size_t i) const;
@@ -360,7 +360,7 @@ public:
 ```cpp
 class ChApi ChFunctionConstAcc : public ChFunction {
 public:
-    // Configure motion from y0 to y1 in time T
+    // 配置 motion from y0 to y1 in time T
     // with constant acceleration/deceleration
     void SetDisplacement(double y1, double y0 = 0);
     void SetDuration(double T);
@@ -406,7 +406,7 @@ public:
 ## 依赖关系
 
 ### 外部依赖
-- **None**: Functions module is self-contained
+- **None**: Functions 模块是 self-contained
 
 ### 内部依赖
 - **core**: ChVector3, ChQuaternion for rotation functions
@@ -592,14 +592,14 @@ auto motion_x = chrono_types::make_shared<ChFunctionInterp>();
 body->SetPosDtDt_x_function(motion_x);
 ```
 
-### 4. Material Properties
+### 4. Material 属性
 ```cpp
 // Time-varying stiffness
 auto stiffness_func = chrono_types::make_shared<ChFunctionRamp>(1e6, 1e5);
 spring->SetSpringFunction(stiffness_func);
 ```
 
-## Function Operations
+## Function 操作
 
 ### Arithmetic
 ```cpp
@@ -662,7 +662,7 @@ auto rot_bspline = chrono_types::make_shared<ChFunctionRotationBSpline>();
 // Smooth rotation interpolation
 ```
 
-## Integration with Physics
+## 集成 with Physics
 
 ```mermaid
 sequenceDiagram
@@ -680,7 +680,7 @@ sequenceDiagram
 
 ## 总结
 
-The functions module provides:
+The functions 模块提供:
 - Flexible 1D function interface for time-dependent quantities
 - Rich library of basic and interpolation functions
 - Smooth motion profile generators
