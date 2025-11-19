@@ -1,29 +1,29 @@
-# Geometry Module Architecture Analysis
+# Geometry 模块架构分析
 
-## Overview
+## 概述
 
-The `src/chrono/geometry` folder provides geometric primitives, curves, surfaces, and computational geometry utilities. It includes shape definitions, parametric curves (B-splines, NURBS), geometric operations, and triangle mesh handling.
+`src/chrono/geometry` folder 提供 geometric primitives, curves, surfaces, and computational geometry utilities. It includes shape definitions, parametric curves (B-splines, NURBS), geometric operations, and triangle mesh handling.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **Geometric Primitives**: Basic shapes (box, sphere, cylinder, etc.)
 2. **Curves**: Lines, arcs, B-splines, NURBS, Bezier curves
 3. **Surfaces**: Parametric surfaces, NURBS surfaces
 4. **Triangle Meshes**: Mesh representation and operations
-5. **Geometric Operations**: Intersections, projections, transformations
+5. **Geometric 操作**: Intersections, projections, transformations
 6. **Computational Geometry**: Convex hulls, closest points, volumes
 
-## Design Characteristics
+## 设计特性
 
-### Architecture Patterns
+### 架构模式
 - **Abstract Base Classes**: ChGeometry for all geometric objects
-- **Visitor Pattern**: Polymorphic operations on different shapes
-- **Strategy Pattern**: Different algorithms for same operation
-- **Factory Pattern**: Shape creation with specific parameters
-- **Composite Pattern**: Complex shapes from primitives
+- **访问者模式**: Polymorphic operations on different shapes
+- **策略模式**: Different algorithms for same operation
+- **工厂模式**: Shape creation with specific parameters
+- **组合模式**: Complex shapes from primitives
 
-### Performance Considerations
+### 性能考虑
 - **Bounding Box Caching**: AABB computed and cached
 - **Level of Detail**: Support for different detail levels (curves/surfaces)
 - **Efficient Evaluation**: Optimized parametric curve/surface evaluation
@@ -34,47 +34,47 @@ The `src/chrono/geometry` folder provides geometric primitives, curves, surfaces
 
 ### Base Classes
 ```
-ChGeometry.h/cpp            - Abstract base for all geometry
-ChVolume.h/cpp              - Base for volume-enclosed shapes
+ChGeometry .h/cpp            - Abstract base for all geometry
+ChVolume .h/cpp              - Base for volume-enclosed shapes
 ```
 
 ### Primitive Shapes
 ```
-ChBox.h/cpp                 - Axis-aligned box
-ChSphere.h/cpp              - Sphere
-ChCylinder.h/cpp            - Cylinder
-ChCone.h/cpp                - Cone
-ChCapsule.h/cpp             - Capsule (rounded cylinder)
-ChEllipsoid.h/cpp           - Ellipsoid
-ChRoundedBox.h/cpp          - Box with rounded edges
-ChRoundedCylinder.h/cpp     - Cylinder with rounded caps
+ChBox .h/cpp                 - Axis-aligned box
+ChSphere .h/cpp              - Sphere
+ChCylinder .h/cpp            - Cylinder
+ChCone .h/cpp                - Cone
+ChCapsule .h/cpp             - Capsule (rounded cylinder)
+ChEllipsoid .h/cpp           - Ellipsoid
+ChRoundedBox .h/cpp          - Box with rounded edges
+ChRoundedCylinder .h/cpp     - Cylinder with rounded caps
 ```
 
 ### Curves
 ```
-ChLine.h/cpp                - Abstract base for curves
-ChLineArc.h/cpp             - Circular arc
-ChLineBezier.h/cpp          - Bezier curve
-ChLineBSpline.h/cpp         - B-spline curve
-ChLineNurbs.h/cpp           - NURBS curve
-ChLinePath.h/cpp            - Piecewise path from segments
-ChLineSegment.h/cpp         - Straight line segment
-ChLineCam.h/cpp             - Cam profile curve
-ChLinePoly.h/cpp            - Polyline
+ChLine .h/cpp                - Abstract base for curves
+ChLineArc .h/cpp             - Circular arc
+ChLineBezier .h/cpp          - Bezier curve
+ChLineBSpline .h/cpp         - B-spline curve
+ChLineNurbs .h/cpp           - NURBS curve
+ChLinePath .h/cpp            - Piecewise path from segments
+ChLineSegment .h/cpp         - Straight line segment
+ChLineCam .h/cpp             - Cam profile curve
+ChLinePoly .h/cpp            - Polyline
 ```
 
 ### Surfaces
 ```
-ChSurface.h/cpp             - Abstract base for surfaces
-ChSurfaceNurbs.h/cpp        - NURBS surface
+ChSurface .h/cpp             - Abstract base for surfaces
+ChSurfaceNurbs .h/cpp        - NURBS surface
 ```
 
 ### Triangle Meshes
 ```
-ChTriangle.h/cpp            - Single triangle
-ChTriangleMesh.h/cpp        - Triangle mesh representation
-ChTriangleMeshConnected.h/cpp - Mesh with connectivity info
-ChTriangleMeshSoup.h/cpp    - Simple triangle soup
+ChTriangle .h/cpp            - Single triangle
+ChTriangleMesh .h/cpp        - Triangle mesh representation
+ChTriangleMeshConnected .h/cpp - Mesh with connectivity info
+ChTriangleMeshSoup .h/cpp    - Simple triangle soup
 ```
 
 ### Basis Functions (Splines)
@@ -83,17 +83,17 @@ ChBasisToolsBSpline.h       - B-spline basis functions
 ChBasisToolsNurbs.h         - NURBS basis functions
 ```
 
-### Geometric Operations
+### Geometric 操作
 ```
 ChGeometryCollision.h       - Collision between geometries
 ChGeometryQuery.h           - Geometric queries (distance, etc.)
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
-    subgraph "Base Classes"
+    subgraph "基类"
         GEOM[ChGeometry]
         VOL[ChVolume]
         LINE[ChLine]
@@ -165,7 +165,7 @@ graph TB
     style MESH fill:#e1ffe1
 ```
 
-## Class Hierarchy
+## 类层次结构
 
 ```mermaid
 classDiagram
@@ -227,7 +227,7 @@ classDiagram
     ChLineBSpline --|> ChLine
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. Geometry Base (ChGeometry.h)
 ```cpp
@@ -327,7 +327,7 @@ public:
 ```cpp
 class ChApi ChLineBSpline : public ChLine {
 public:
-    // Construction
+    // 构造
     ChLineBSpline(int order,
                   const std::vector<ChVector3>& control_points,
                   const std::vector<double>& knots = {});
@@ -341,7 +341,7 @@ public:
     void Evaluate(ChVector3& pos, double u) const override;
     void EvaluateDer(ChVector3& der, double u) const override;
     
-    // Access
+    // 访问
     int GetOrder() const;
     const std::vector<ChVector3>& GetControlPoints() const;
     const std::vector<double>& GetKnots() const;
@@ -356,7 +356,7 @@ public:
 ```cpp
 class ChApi ChLineNurbs : public ChLine {
 public:
-    // Construction with weights
+    // 构造 with weights
     ChLineNurbs(int order,
                 const std::vector<ChVector3>& control_points,
                 const std::vector<double>& weights,
@@ -389,7 +389,7 @@ public:
     bool LoadFromOBJ(const std::string& filename);
     bool SaveToOBJ(const std::string& filename);
     
-    // Access
+    // 访问
     size_t GetNumTriangles() const;
     size_t GetNumVertices() const;
     ChTriangle GetTriangle(size_t i) const;
@@ -398,7 +398,7 @@ public:
     void Transform(const ChVector3& displacement,
                   const ChMatrix33<>& rotation);
     
-    // Properties
+    // 属性
     double GetVolume() const;
     ChVector3 GetBarycenter() const;
     ChMatrix33<> GetInertia() const;
@@ -414,7 +414,7 @@ public:
 ```cpp
 class ChApi ChSurfaceNurbs : public ChSurface {
 public:
-    // Construction
+    // 构造
     ChSurfaceNurbs(int order_u, int order_v,
                    const std::vector<std::vector<ChVector3>>& control_points,
                    const std::vector<double>& weights = {},
@@ -430,86 +430,86 @@ public:
     ChVector3 Normal(double u, double v) const;
     
     // Tessellation
-    void CreateMesh(ChTriangleMesh& mesh,
+    void 创建Mesh(ChTriangleMesh& mesh,
                    int res_u, int res_v) const;
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
-- **None**: Geometry module is self-contained
+### 外部依赖
+- **None**: Geometry 模块是 self-contained
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector3, ChMatrix33 for geometric computations
 - **serialization**: For saving/loading geometry
 
-### Usage by Other Modules
+### 其他模块的使用
 - **collision**: Shape definitions for collision detection
 - **assets**: Visual shape definitions
 - **fea**: Mesh generation for FEA
 - **vehicle**: Terrain surface definitions
 - **particlefactory**: Emitter geometry
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Separation of Concerns
-**Decision**: Geometry separate from physics and visualization
-**Rationale**:
+**决策**: Geometry separate from physics and visualization
+**理由**:
 - Pure geometric operations
 - Reusable across modules
 - Clear interface boundaries
 - Independent testing
 
 ### 2. Parametric Representation
-**Decision**: Parametric curves and surfaces (u, v parameters)
-**Rationale**:
+**决策**: Parametric curves and surfaces (u, v parameters)
+**理由**:
 - Standard in CAD/graphics
 - Smooth representation
 - Easy to sample/tessellate
 - Supports deformation
 
 ### 3. B-splines and NURBS
-**Decision**: Full support for B-splines and NURBS
-**Rationale**:
+**决策**: Full support for B-splines and NURBS
+**理由**:
 - Industry standard (CAD interoperability)
 - Smooth curves with local control
 - Exact representation of conics (NURBS)
 - Efficient evaluation
 
 ### 4. Triangle Mesh Format
-**Decision**: Simple vertex/index array representation
-**Rationale**:
+**决策**: Simple vertex/index array representation
+**理由**:
 - Compatible with graphics APIs
 - Easy to create procedurally
 - Standard OBJ file support
 - Memory efficient
 
-### 5. Mass Properties
-**Decision**: Geometric objects compute mass properties
-**Rationale**:
+### 5. Mass 属性
+**决策**: Geometric objects compute mass properties
+**理由**:
 - Useful for physics setup
 - Automatic inertia calculation
 - Consistent with solid modeling
 - Supports composite shapes
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Efficient Evaluation**: Optimized spline evaluation algorithms
 2. **Caching**: Bounding boxes and derived quantities cached
 3. **Level of Detail**: Adjustable tesselation resolution
 4. **Memory Efficiency**: Shared vertex data in meshes
-5. **Vectorized Operations**: Where applicable
+5. **Vectorized 操作**: Where applicable
 
-### Considerations
+### 注意事项
 1. **Curve Evaluation**: NURBS more expensive than B-splines
 2. **Mesh Size**: Large meshes consume memory
 3. **Tessellation Cost**: High-resolution surfaces expensive to mesh
 4. **Convex Hull**: O(n log n) for point clouds
-5. **Closest Point**: Iterative, may need good initial guess
+5. **关闭st Point**: Iterative, may need good initial guess
 
-## Typical Usage Patterns
+## 典型使用模式
 
 ### Creating Primitive Shapes
 ```cpp
@@ -528,7 +528,7 @@ auto cyl = chrono_types::make_shared<ChCylinder>(0.5, 2.0);
 
 ### Working with B-splines
 ```cpp
-// Create B-spline curve
+// 创建 B-spline curve
 std::vector<ChVector3> control_points = {
     ChVector3(0, 0, 0),
     ChVector3(1, 2, 0),
@@ -573,7 +573,7 @@ mesh->Transform(ChVector3(1, 2, 3), ChMatrix33<>(1));
 
 ### NURBS Surface
 ```cpp
-// Create control point grid
+// 创建 control point grid
 std::vector<std::vector<ChVector3>> control_grid;
 // ... populate grid ...
 
@@ -588,12 +588,12 @@ ChVector3 normal = nurbs_surf->Normal(0.5, 0.5);
 
 // Tessellate to mesh
 ChTriangleMesh mesh;
-nurbs_surf->CreateMesh(mesh, 20, 20);  // 20x20 resolution
+nurbs_surf->创建Mesh(mesh, 20, 20);  // 20x20 resolution
 ```
 
 ### Path Following
 ```cpp
-// Create path from segments
+// 创建 path from segments
 auto path = chrono_types::make_shared<ChLinePath>();
 path->AddSubLine(chrono_types::make_shared<ChLineSegment>(
     ChVector3(0, 0, 0), ChVector3(1, 0, 0)));
@@ -622,7 +622,7 @@ ChMatrix33<> rot = Q_from_AngAxis(CH_PI/4, VECT_Z).GetRotMat();
 geometry->GetBoundingBox(bbmin, bbmax, rot);
 ```
 
-### Mass Properties
+### Mass 属性
 ```cpp
 // For volume shapes
 double mass = volume->GetVolume() * density;
@@ -630,7 +630,7 @@ ChMatrix33<> inertia_tensor = volume->GetGyration();
 inertia_tensor *= mass;  // Scale by mass
 ```
 
-### Curve Operations
+### Curve 操作
 ```cpp
 // Arc length
 double len = curve->Length(0.0, 1.0, 100);  // 100 samples
@@ -642,7 +642,7 @@ ChVector3 closest;
 curve->Evaluate(closest, u_nearest);
 ```
 
-## Integration with Other Modules
+## 集成 with Other Modules
 
 ### With Collision Module
 ```cpp
@@ -660,17 +660,17 @@ auto visual_sphere = chrono_types::make_shared<ChVisualShapeSphere>(
 
 ### With FEA Module
 ```cpp
-// Generate FEA mesh from surface
+// 生成 FEA mesh from surface
 ChTriangleMesh surface_mesh;
-nurbs_surface->CreateMesh(surface_mesh, 50, 50);
+nurbs_surface->创建Mesh(surface_mesh, 50, 50);
 // Convert to FEA mesh...
 ```
 
 ## Advanced Features
 
-### Closed Curves
+### 关闭d Curves
 ```cpp
-// Create closed B-spline
+// 创建 closed B-spline
 bspline->SetupUniform(3, control_points, true);  // closed=true
 // First and last points automatically connected
 ```
@@ -692,9 +692,9 @@ mesh->RepairDuplicateVertices();
 mesh->ComputeNormals();
 ```
 
-## Summary
+## 总结
 
-The geometry module provides:
+The geometry 模块提供:
 - Comprehensive geometric primitive library
 - Advanced curve/surface representations (B-splines, NURBS)
 - Triangle mesh handling and operations

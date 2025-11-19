@@ -1,61 +1,61 @@
-# Multicore Math Module Architecture Analysis
+# Multicore Math 模块架构分析
 
-## Overview
+## 概述
 
-The `src/chrono/multicore_math` folder provides mathematical types and operations optimized for multicore and parallel execution. It includes SIMD-friendly vector/matrix types, real number abstractions, and utilities for high-performance parallel computation.
+`src/chrono/multicore_math` 文件夹提供针对多核和并行执行优化的数学类型和操作。它包括 SIMD 友好的向量/矩阵类型、实数抽象以及用于高性能并行计算的实用程序。
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
-1. **SIMD Types**: Vector types for SIMD operations (real2, real3, real4)
-2. **Matrix Operations**: Efficient matrix math for parallel code
-3. **Real Number Abstraction**: Switchable float/double precision
-4. **Thrust Integration**: GPU-compatible types and operations
-5. **Utility Functions**: Math helpers for parallel kernels
+### 主要职责
+1. **SIMD 类型**：用于 SIMD 操作的向量类型（real2、real3、real4）
+2. **矩阵操作**：用于并行代码的高效矩阵数学运算
+3. **实数抽象**：可切换的 float/double 精度
+4. **Thrust 集成**：GPU 兼容的类型和操作
+5. **实用函数**：并行内核的数学辅助函数
 
-## File Structure
+## 文件结构
 
 ```
-real.h                  - Base real number type (float or double)
-real_single.h          - Single precision specialization
-real_double.h          - Double precision specialization
-real2.h                - 2D vector type
-real3.h                - 3D vector type
-real4.h                - 4D vector type (or quaternion)
-matrix.h               - Matrix types and operations
-simd.h                 - SIMD intrinsics and operations
-thrust.h               - Thrust library integration
-utility.h              - Math utility functions
-other_types.h          - Additional type definitions
+real.h                  - 基础实数类型 (float or double)
+real_single.h          - 单精度特化
+real_double.h          - 双精度特化
+real2.h                - 2D 向量类型
+real3.h                - 3D 向量类型
+real4.h                - 4D 向量类型 (or quaternion)
+matrix.h               - 矩阵类型和操作
+simd.h                 - SIMD 内建函数和操作
+thrust.h               - Thrust 库集成
+utility.h              - 数学实用函数
+other_types.h          - 附加类型定义
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
-    subgraph "Real Types"
+    subgraph "Real 类型"
         REAL[real]
         R1[real (single)]
         R2[real (double)]
     end
     
-    subgraph "Vector Types"
+    subgraph "Vector 类型"
         VEC2[real2]
         VEC3[real3]
         VEC4[real4]
     end
     
-    subgraph "Matrix Types"
+    subgraph "Matrix 类型"
         MAT33[mat33]
         MAT[matrix]
     end
     
-    subgraph "Integration"
+    subgraph "集成"
         SIMD[SIMD ops]
         THRUST[Thrust types]
     end
     
-    subgraph "Utilities"
+    subgraph "实用程序"
         UTIL[utility]
     end
     
@@ -82,7 +82,7 @@ graph TB
     style SIMD fill:#e1ffe1
 ```
 
-## Core Data Types
+## Core Data 类型
 
 ### 1. Real Number (real.h)
 ```cpp
@@ -100,7 +100,7 @@ static const real C_REAL_EPSILON = /* ... */;
 static const real C_PI = /* ... */;
 ```
 
-### 2. Vector Types (real2.h, real3.h, real4.h)
+### 2. Vector 类型 (real2.h, real3.h, real4.h)
 ```cpp
 // 2D vector
 struct real2 {
@@ -110,7 +110,7 @@ struct real2 {
     __host__ __device__ real2() : x(0), y(0) {}
     __host__ __device__ real2(real x, real y) : x(x), y(y) {}
     
-    // Operations
+    // 操作
     __host__ __device__ real2 operator+(const real2& rhs) const;
     __host__ __device__ real2 operator*(real s) const;
     __host__ __device__ real length() const;
@@ -155,7 +155,7 @@ struct real4 {
 };
 ```
 
-### 3. Matrix Types (matrix.h)
+### 3. Matrix 类型 (matrix.h)
 ```cpp
 // 3x3 matrix
 struct mat33 {
@@ -169,7 +169,7 @@ struct mat33 {
     __host__ __device__ mat33 operator*(const mat33& rhs) const;
     __host__ __device__ real3 operator*(const real3& v) const;
     
-    // Utilities
+    // 实用程序
     __host__ __device__ mat33 transpose() const;
     __host__ __device__ real determinant() const;
     __host__ __device__ mat33 inverse() const;
@@ -191,14 +191,14 @@ public:
     T& operator()(int i, int j);
     const T& operator()(int i, int j) const;
     
-    // Operations
+    // 操作
     ChMulticoreMatrix operator*(const ChMulticoreMatrix& rhs) const;
     void multiply(const ChMulticoreMatrix& A,
                  const ChMulticoreMatrix& B);
 };
 ```
 
-## SIMD Operations (simd.h)
+## SIMD 操作 (simd.h)
 
 ```cpp
 // SIMD-friendly operations
@@ -223,7 +223,7 @@ namespace simd {
 }
 ```
 
-## Thrust Integration (thrust.h)
+## Thrust 集成 (thrust.h)
 
 ```cpp
 // Make types work with Thrust
@@ -284,72 +284,72 @@ namespace utils {
 }
 ```
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. GPU Compatibility
-**Decision**: __host__ __device__ annotations on all functions
-**Rationale**:
+**决策**: __host__ __device__ annotations on all functions
+**理由**:
 - Code works on both CPU and GPU
 - Single implementation for both
 - CUDA compatibility
 - Reduced code duplication
 
 ### 2. Struct-Based Vectors
-**Decision**: Plain structs instead of classes
-**Rationale**:
+**决策**: Plain structs instead of classes
+**理由**:
 - POD types for GPU kernels
 - Fast pass-by-value
 - No virtual functions
 - Optimal memory layout
 
 ### 3. Switchable Precision
-**Decision**: 'real' typedef for float or double
-**Rationale**:
+**决策**: 'real' typedef for float or double
+**理由**:
 - Choose precision at compile time
 - Single codebase for both
 - GPU often faster with float
 - CPU may benefit from double
 
 ### 4. Column-Major Matrices
-**Decision**: Matrices stored column-major
-**Rationale**:
-- Compatible with OpenGL/graphics
+**决策**: Matrices stored column-major
+**理由**:
+- Compatible with 打开GL/graphics
 - SIMD-friendly for column operations
 - Standard in scientific computing
 - Efficient for common operations
 
-### 5. Thrust Integration
-**Decision**: Types compatible with Thrust library
-**Rationale**:
+### 5. Thrust 集成
+**决策**: 类型 compatible with Thrust library
+**理由**:
 - Leverage Thrust parallel algorithms
 - GPU acceleration
 - Standard C++ STL-like interface
 - Proven performance
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **SIMD Friendly**: Data layout optimized for vectorization
 2. **GPU Compatible**: All code runs on GPU
 3. **Cache Efficient**: Compact data structures
-4. **Inlined Operations**: Small functions inlined
+4. **Inlined 操作**: Small functions inlined
 5. **Precision Control**: Choose speed vs accuracy
 
-### Considerations
+### 注意事项
 1. **Alignment**: May need explicit alignment for SIMD
 2. **Register Pressure**: Large structs may spill registers
 3. **Precision Loss**: Float has limited precision
-4. **Atomic Operations**: Limited atomic support for custom types
+4. **Atomic 操作**: Limited atomic support for custom types
 
-## Typical Usage Patterns
+## 典型使用模式
 
-### Vector Operations
+### Vector 操作
 ```cpp
-// Create vectors
+// 创建 vectors
 real3 a(1.0, 2.0, 3.0);
 real3 b(4.0, 5.0, 6.0);
 
-// Operations
+// 操作
 real3 c = a + b;
 real3 d = a * 2.0;
 real dot = a.dot(b);
@@ -365,7 +365,7 @@ real len2 = a.length2();  // Faster, no sqrt
 
 ### Quaternion Rotations
 ```cpp
-// Create quaternion from axis-angle
+// 创建 quaternion from axis-angle
 real3 axis(0, 0, 1);  // Z axis
 real angle = C_PI / 4;  // 45 degrees
 real4 q = utils::quat_from_axis_angle(axis, angle);
@@ -379,9 +379,9 @@ real4 q2 = /* ... */;
 real4 q_combined = q * q2;
 ```
 
-### Matrix Operations
+### Matrix 操作
 ```cpp
-// Create matrix
+// 创建 matrix
 mat33 R = mat33::identity();
 mat33 S = mat33::diagonal(2.0, 2.0, 2.0);  // Scale
 
@@ -397,7 +397,7 @@ mat33 Rt = R.transpose();
 mat33 Rinv = R.inverse();
 ```
 
-### Parallel Operations with Thrust
+### Parallel 操作 with Thrust
 ```cpp
 // Device vectors
 thrust::device_vector<real3> d_positions(n);
@@ -418,7 +418,7 @@ real3 total_force = thrust::reduce(d_forces.begin(), d_forces.end(),
                                    thrust::plus<real3>());
 ```
 
-### SIMD Operations
+### SIMD 操作
 ```cpp
 // Use SIMD namespace for potentially vectorized ops
 real3 a(1, 2, 3);
@@ -434,13 +434,13 @@ real3 v = /* ... */;
 real3 result = simd::mult(M, v);
 ```
 
-## Integration with Chrono Multicore
+## 集成 with Chrono Multicore
 
-The multicore_math module is specifically designed for Chrono::Multicore, providing:
+The multicore_math 模块是 specifically designed for Chrono::Multicore, providing:
 - GPU-compatible types for CUDA kernels
 - Efficient data structures for parallel solvers
-- SIMD-friendly layouts for OpenMP code
-- Integration with Thrust for GPU algorithms
+- SIMD-friendly layouts for 打开MP code
+- 集成 with Thrust for GPU algorithms
 
 ## Best Practices
 
@@ -486,12 +486,12 @@ real dot = simd::dot3(a, b);  // May use SIMD
 real dot = a.x*b.x + a.y*b.y + a.z*b.z;
 ```
 
-## Summary
+## 总结
 
-The multicore_math module provides:
+The multicore_math 模块提供:
 - GPU-compatible mathematical types (real2, real3, real4)
 - SIMD-optimized vector and matrix operations
-- Switchable float/double precision
+- 可切换 float/double 精度
 - Thrust integration for parallel algorithms
 - Efficient data structures for parallel computing
 

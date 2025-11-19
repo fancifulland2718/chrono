@@ -1,49 +1,49 @@
-# FEA Module Architecture Analysis
+# FEA 模块架构分析
 
-## Overview
+## 概述
 
-The `src/chrono/fea` folder implements the Finite Element Analysis (FEA) capabilities in Chrono, providing structural mechanics simulation including beams, shells, solids, and cables. It supports both small and large deformations with various element formulations.
+`src/chrono/fea` folder implements the Finite Element Analysis (FEA) capabilities in Chrono, providing structural mechanics simulation including beams, shells, solids, and cables. It supports both small and large deformations with various element formulations.
 
-## Main Functionality
+## 主要功能
 
-### Primary Responsibilities
+### 主要职责
 1. **FEA Mesh Management**: Container for nodes and elements
-2. **Node Types**: 3D position, rotation, shell nodes, etc.
-3. **Element Types**: Beams, shells, solids, cables, springs
+2. **Node 类型**: 3D position, rotation, shell nodes, etc.
+3. **Element 类型**: Beams, shells, solids, cables, springs
 4. **Material Models**: Linear elastic, hyperelastic, viscoelastic
-5. **Section Properties**: Beam and shell cross-sections
+5. **Section 属性**: Beam and shell cross-sections
 6. **Contact**: Node-node, node-face, surface contact
 7. **Loads**: Distributed loads, body forces, surface loads
-8. **Integration**: Gauss quadrature and numerical integration
+8. **集成**: Gauss quadrature and numerical integration
 
 ## File Structure and Relationships
 
 ### Core FEA Classes
 ```
-ChMesh.h/cpp                - FEA mesh container
-ChNodeFEAbase.h/cpp         - Base FEA node class
-ChElementBase.h/cpp         - Base FEA element class
-ChContinuumMaterial.h/cpp   - Material models
+ChMesh .h/cpp                - FEA mesh container
+ChNodeFEAbase .h/cpp         - Base FEA node class
+ChElementBase .h/cpp         - Base FEA element class
+ChContinuumMaterial .h/cpp   - Material models
 ```
 
-### Node Types
+### Node 类型
 ```
-ChNodeFEAxyz.h/cpp          - 3D position node (3 DOF)
-ChNodeFEAxyzrot.h/cpp       - Position + small rotation (6 DOF)
-ChNodeFEAxyzD.h/cpp         - Position + gradient (6 DOF)
-ChNodeFEAxyzDD.h/cpp        - Position + 2 gradients (9 DOF)
-ChNodeFEAxyzP.h/cpp         - Position + pressure (4 DOF)
+ChNodeFEAxyz .h/cpp          - 3D position node (3 DOF)
+ChNodeFEAxyzrot .h/cpp       - Position + small rotation (6 DOF)
+ChNodeFEAxyzD .h/cpp         - Position + gradient (6 DOF)
+ChNodeFEAxyzDD .h/cpp        - Position + 2 gradients (9 DOF)
+ChNodeFEAxyzP .h/cpp         - Position + pressure (4 DOF)
 ```
 
 ### Beam Elements
 ```
 ChElementBeam.h             - Base beam element
-ChElementBeamEuler.h/cpp    - Euler-Bernoulli beam
+ChElementBeamEuler .h/cpp    - Euler-Bernoulli beam
 ChElementBeamANCF_3243.h    - ANCF beam (3 nodes, 24/43 DOF)
 ChElementBeamANCF_3333.h    - ANCF beam (3 nodes, 33 DOF)
-ChElementBeamIGA.h/cpp      - Isogeometric beam
-ChElementBeamTaperedTimoshenko.h/cpp - Tapered Timoshenko beam
-ChElementCableANCF.h/cpp    - Cable element (no bending)
+ChElementBeamIGA .h/cpp      - Isogeometric beam
+ChElementBeamTaperedTimoshenko .h/cpp - Tapered Timoshenko beam
+ChElementCableANCF .h/cpp    - Cable element (no bending)
 ```
 
 ### Shell Elements
@@ -65,15 +65,15 @@ ChElementBrick_9.h          - 9-node brick
 
 ### Special Elements
 ```
-ChElementBar.h/cpp          - 2-node bar/truss
-ChElementSpring.h/cpp       - Spring element
+ChElementBar .h/cpp          - 2-node bar/truss
+ChElementSpring .h/cpp       - Spring element
 ChElementGeneric.h          - Generic element base
 ChElementCorotational.h     - Corotational formulation wrapper
 ```
 
 ### Sections and Materials
 ```
-ChBeamSection.h/cpp         - Beam cross-section properties
+ChBeamSection .h/cpp         - Beam cross-section properties
 ChBeamSectionCable.h        - Cable section
 ChBeamSectionEuler.h        - Euler beam section
 ChBeamSectionTimoshenko.h   - Timoshenko beam section
@@ -88,30 +88,30 @@ ChMaterialShellReissner.h   - Reissner shell material
 
 ### Contact and Constraints
 ```
-ChContactSurface.h/cpp      - Base contact surface
-ChContactSurfaceMesh.h/cpp  - Triangle mesh contact
+ChContactSurface .h/cpp      - Base contact surface
+ChContactSurfaceMesh .h/cpp  - Triangle mesh contact
 ChContactSurfaceNodeCloud.h - Node cloud contact
-ChLinkNodeFrame.h/cpp       - Link node to body
-ChLinkNodeNode.h/cpp        - Link two nodes
-ChLinkNodeFace.h/cpp        - Link node to element face
+ChLinkNodeFrame .h/cpp       - Link node to body
+ChLinkNodeNode .h/cpp        - Link two nodes
+ChLinkNodeFace .h/cpp        - Link node to element face
 ```
 
 ### Loads
 ```
 ChLoad.h                    - Base load (from physics)
-ChLoadsBeam.h/cpp           - Distributed beam loads
+ChLoadsBeam .h/cpp           - Distributed beam loads
 ChLoadsNodeXYZ.h            - Point loads on nodes
 ChLoadBodyMesh.h            - Distributed surface loads
 ```
 
-### Mesh Operations
+### Mesh 操作
 ```
-ChMeshFileLoader.h/cpp      - Load mesh from file (Abaqus, etc.)
-ChMeshExporter.h/cpp        - Export mesh to file
-ChMeshSurface.h/cpp         - Extract mesh surface
+ChMeshFileLoader .h/cpp      - Load mesh from file (Abaqus, etc.)
+ChMeshExporter .h/cpp        - Export mesh to file
+ChMeshSurface .h/cpp         - Extract mesh surface
 ```
 
-## Architecture Diagram
+## 架构图
 
 ```mermaid
 graph TB
@@ -177,7 +177,7 @@ graph TB
     style MAT fill:#e1ffe1
 ```
 
-## Core External Interfaces
+## 核心外部接口
 
 ### 1. FEA Mesh (ChMesh.h)
 ```cpp
@@ -189,7 +189,7 @@ public:
     // Add elements
     void AddElement(std::shared_ptr<ChElementBase> elem);
     
-    // Access
+    // 访问
     size_t GetNumNodes() const;
     size_t GetNumElements() const;
     std::shared_ptr<ChNodeFEAbase> GetNode(size_t i);
@@ -215,7 +215,7 @@ public:
     virtual int GetNumCoordsPosLevel() const = 0;
     virtual int GetNumCoordsVelLevel() const = 0;
     
-    // State
+    // 状态
     virtual void NodeIntStateGather(int offset_x,
                                     ChState& x,
                                     int offset_v,
@@ -373,31 +373,31 @@ public:
 };
 ```
 
-## Dependencies
+## 依赖关系
 
-### External Dependencies
+### 外部依赖
 - **Eigen3**: Linear algebra for element matrices
 - **MKL (optional)**: Fast linear algebra
 
-### Internal Dependencies
+### 内部依赖
 - **core**: ChVector3, ChMatrix for math
 - **physics**: ChPhysicsItem, ChLoadable interfaces
 - **solver**: ChVariables, ChConstraint for DOFs
 - **collision**: ChContactMaterial for contact
 
-### Usage by Other Modules
+### 其他模块的使用
 - **vehicle**: Flexible tires, cables
 - **sensor**: Deformable object visualization
 - **postprocess**: FEA result export
 
-## Typical Usage Patterns
+## 典型使用模式
 
-### Create Simple Beam
+### 创建 Simple Beam
 ```cpp
-// Create mesh
+// 创建 mesh
 auto mesh = chrono_types::make_shared<ChMesh>();
 
-// Create nodes
+// 创建 nodes
 auto nodeA = chrono_types::make_shared<ChNodeFEAxyzrot>(
     ChFrame<>(ChVector3(0, 0, 0)));
 auto nodeB = chrono_types::make_shared<ChNodeFEAxyzrot>(
@@ -406,7 +406,7 @@ auto nodeB = chrono_types::make_shared<ChNodeFEAxyzrot>(
 mesh->AddNode(nodeA);
 mesh->AddNode(nodeB);
 
-// Create beam element
+// 创建 beam element
 auto element = chrono_types::make_shared<ChElementBeamEuler>();
 element->SetNodes(nodeA, nodeB);
 
@@ -431,11 +431,11 @@ nodeA->SetFixed(true);
 nodeB->SetForce(ChVector3(0, -1000, 0));
 ```
 
-### Create Shell Mesh
+### 创建 Shell Mesh
 ```cpp
 auto mesh = chrono_types::make_shared<ChMesh>();
 
-// Create nodes in grid
+// 创建 nodes in grid
 for (int i = 0; i <= nx; i++) {
     for (int j = 0; j <= ny; j++) {
         auto node = chrono_types::make_shared<ChNodeFEAxyzD>(
@@ -446,7 +446,7 @@ for (int i = 0; i <= nx; i++) {
     }
 }
 
-// Create shell elements
+// 创建 shell elements
 for (int i = 0; i < nx; i++) {
     for (int j = 0; j < ny; j++) {
         auto element = chrono_types::make_shared<ChElementShellANCF_3423>();
@@ -470,7 +470,7 @@ for (int i = 0; i < nx; i++) {
 
 ### Add Contact Surface
 ```cpp
-// Create contact surface from mesh boundary
+// 创建 contact surface from mesh boundary
 auto contact_surface = chrono_types::make_shared<ChContactSurfaceMesh>();
 mesh->AddContactSurface(contact_surface);
 
@@ -512,11 +512,11 @@ ChMeshFileLoader::FromGmshFile(
 );
 ```
 
-## Key Design Decisions
+## 关键设计决策
 
 ### 1. Modular Element Library
-**Decision**: Wide variety of element types
-**Rationale**:
+**决策**: Wide variety of element types
+**理由**:
 - Different elements for different applications
 - ANCF for large deformations
 - Corotational for moderate deformations
@@ -524,46 +524,46 @@ ChMeshFileLoader::FromGmshFile(
 - User can choose appropriate formulation
 
 ### 2. Separate Nodes and Elements
-**Decision**: Nodes and elements are separate objects
-**Rationale**:
+**决策**: Nodes and elements are separate objects
+**理由**:
 - Flexibility in mesh topology
 - Nodes shared between elements
 - Clear ownership model
 - Standard FEA architecture
 
 ### 3. Material/Section Separation
-**Decision**: Separate material and geometric properties
-**Rationale**:
+**决策**: Separate material and geometric properties
+**理由**:
 - Reusable materials
 - Section properties independent
 - Clear organization
 - Standard in structural analysis
 
-### 4. Integration with Physics Engine
-**Decision**: FEA elements are ChPhysicsItems
-**Rationale**:
+### 4. 集成 with Physics Engine
+**决策**: FEA elements are ChPhysicsItems
+**理由**:
 - Seamless integration with rigid bodies
 - Unified solver for everything
 - Contacts between FEA and rigid
 - Single time integration
 
-## Performance Characteristics
+## 性能特性
 
-### Strengths
+### 优势
 1. **Sparse Matrices**: Efficient for large systems
 2. **Parallel Assembly**: Elements assembled in parallel
-3. **Selective Integration**: Reduced integration for efficiency
+3. **Selective 集成**: Reduced integration for efficiency
 4. **Corotational**: Efficient for moderate rotations
 
-### Considerations
+### 注意事项
 1. **Element Count**: Many elements = large system
 2. **Nonlinearity**: Geometric/material nonlinearity expensive
 3. **Contact**: FEA contact is computationally intensive
 4. **Time Steps**: Small steps needed for stability
 
-## Summary
+## 总结
 
-The FEA module provides:
+The FEA 模块提供:
 - Comprehensive finite element library
 - Beams, shells, solids, and cables
 - Small and large deformation formulations
